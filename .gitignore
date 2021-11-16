@@ -1,3 +1,7 @@
+# Code::Blocks Files
+*.cpb
+*.layout
+
 # Prerequisites
 *.d
 
