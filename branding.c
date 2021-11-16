@@ -6,13 +6,13 @@
 
 #define BUFFER_LENGTH 255
 
-void DrawLogo(void)
+void DrawLogo(const char *sCompanyName, const char *sLogoFileName)
 {
 	FILE *pFile;
 	char buffer[BUFFER_LENGTH];
 
 #if FEAT_CUSTOM_LOGO == 1
-	pFile = fopen(BRAND_LOGO_FILE, "r");
+	pFile = fopen(sLogoFileName, "r");
 #else
 	pFile = NULL;
 #endif
@@ -29,7 +29,7 @@ void DrawLogo(void)
 	{
 		DrawCenteredText("Welcome to the");
 #if FEAT_CUSTOM_BRAND == 1
-		DrawCenteredText(COMPANY_NAME);
+		DrawCenteredText(sCompanyName);
 #else
 		DrawCenteredText("Burger Joint");
 #endif

@@ -20,8 +20,10 @@
 #define FEAT_CUSTOM_BRAND     1
 #define FEAT_CUSTOM_LOGO      1
 
-#define FEAT_MENU_FILE        1
-#define FEAT_MENU_SORT        1
-#define FEAT_MENU_CATEGORY    1
+#define FEAT_CATEGORIES       1
+#define FEAT_MODIFICATIONS    1
+
+#define FEAT_PRODUCT_SAVE     1
+#define FEAT_PRODUCT_SORT     1
 
 #endif // INC_FLAGS_H
