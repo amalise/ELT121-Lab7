@@ -1,6 +1,7 @@
 # Code::Blocks Files
 *.cbp
 *.layout
+*.depend
 
 # Prerequisites
 *.d

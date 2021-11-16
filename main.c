@@ -1,18 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
-{
-    char *myName;        // cheeeseburger
-    char *myVariants[3]; // small, medium, large
-    float myPrices[3];   // $1.09, $1.29, $1.49
-} MenuItem;
+#include "flags.h"
+#include "branding.h"
+#include "menu.h"
 
-typedef struct
-{
-    MenuItem *myItem;
-    MenuList *nextItem;
-} MenuList;
 
 int main()
 {
@@ -40,42 +32,21 @@ int main()
     medium
     large
     1.09 1.29 1.49
-/**/
 
     myMenuItem.myName = new *char('Cheeseburger');
     myMenuItem.myPrices = (1.09, 1.29, 1.49);
+/**/
 
+    InitConsole();
 
-    Menu *FoodMenu;
+    DrawLogo();
 
-    DisplayLogo();
+    // LoadData();
+    // MainMenu();
 
-    LoadData();
-
-    MainMenu();
+    DrawCopyright();
 
     return 0;
-}
-
-void DisplayLogo(void)
-{
-    // XXXX
-}
-
-/*
- * Read menu from a file
- */
-void LoadData(void)
-{
-    // XXXX
-}
-
-/*
- * Save menu to a file
- */
-void WriteData(void)
-{
-
 }
 
 void MainMenu(void)
@@ -87,7 +58,7 @@ void MainMenu(void)
         Exit
         - DEBUG (change date for testing)
      */
-     do
+/*     do
      {
          switch(selection)
          {
@@ -105,4 +76,5 @@ void MainMenu(void)
              EntryError();
          }
      } while(not exit);
+*/
 }
