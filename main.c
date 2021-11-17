@@ -4,7 +4,7 @@
 #include "flags.h"
 #include "branding.h"
 #include "category.h"
-#include "menu.h"
+#include "product.h"
 
 #include "libstr.h"
 
@@ -17,7 +17,7 @@ int main()
 
     pCategories = ReadCategoryFile(CATEGORY_FILE);
     //pProducts   = ReadProductFile(PRODUCT_FILE, pCategories);
-    
+
     DrawLogo(COMPANY_NAME, BRAND_LOGO_FILE);
 
     // LoadData();

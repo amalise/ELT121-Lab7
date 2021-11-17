@@ -38,10 +38,10 @@ void FreeProductList(struct ProductList *pProducts)
 			{
 				free(pTmpP->pItem->sName);
 			}
-			while(pTmpP->pVariants != NULL)
+			while(pTmpP->pItem->pVariants != NULL)
 			{
-				pTmpV = pTmpP->pVariants;
-				pTmpP->pVariants = pTmpP->pVariants->pNext;
+				pTmpV = pTmpP->pItem->pVariants;
+				pTmpP->pItem->pVariants = pTmpP->pItem->pVariants->pNext;
 				if(pTmpV->sName != NULL)
 				{
 					free(pTmpV->sName);
