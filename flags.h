@@ -15,6 +15,7 @@
 
 #define OPT_FULLSCREEN        0 // DO NOT USE
 
+#define FEAT_FIXED_DISPLAY    1
 #define FEAT_COLOR_DISPLAY    1
 
 #define FEAT_CUSTOM_BRAND     1
