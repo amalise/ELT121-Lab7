@@ -19,7 +19,7 @@
 #define FEAT_COLOR_DISPLAY    1
 
 #define FEAT_CUSTOM_BRAND     1
-#define FEAT_CUSTOM_LOGO      1
+#define FEAT_CUSTOM_LOGO      0
 
 #define FEAT_CATEGORIES       1
 #define FEAT_MODIFICATIONS    1
