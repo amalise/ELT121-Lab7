@@ -51,6 +51,16 @@ void SaveProducts(void)
 
 }
 
+void SortProductsByName(void)
+{
+
+}
+
+void SortProductsByPrice(void)
+{
+
+}
+
 int GetProductCount(void)
 {
     return PRODUCT_COUNT;
