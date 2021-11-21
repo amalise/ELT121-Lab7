@@ -2,30 +2,23 @@
 #include <stdlib.h>
 
 #include "flags.h"
-#include "branding.h"
-#include "product.h"
+#include "lib/console.h"
 
-int main()
+void MainMenu(void);
+
+/*
+ *
+ */
+void main(void)
 {
-    Product *myProduct;
-    // Initialize our control of the Windows console
-    InitConsole();
-    LoadProducts();
-    DrawLogo();
+    InitConsole();           // Initialize the UI
 
+    MainMenu();              // Main Program Loop
 
-    for(int i = 0; i < GetProductCount(); i++)
-    {
-        myProduct = GetProduct(i);
-        printf("Product Name: %25s\t\t$%5.2f\n", myProduct->sName, myProduct->fPrice);
-    }
+    DrawCopyright();         // Credits on Exit
+}
 
-    myProduct = GetProduct(6);
-    printf("\n\nProduct Name: %25s\t\t$%5.2f\n", myProduct->sName, myProduct->fPrice);
+void MainMenu(void)
+{
 
-
-    SaveProducts();
-    DrawCopyright();
-
-    return 0;
 }
