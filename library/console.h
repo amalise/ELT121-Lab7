@@ -58,7 +58,7 @@ void SetColors(char *sFG, char *sBG);
 void ColorReset(void);
 
 // Determine console size, for text positioning
-void InitConsole(void);
+void InitConsole(char *sWindowTitle);
 
 // Position text horizontally in the window
 void DrawCenteredText(char *sText);

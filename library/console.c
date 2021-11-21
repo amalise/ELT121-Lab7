@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
 
-#include "flags.h"
 #include "console.h"
 
 /*
