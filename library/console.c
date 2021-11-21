@@ -47,7 +47,7 @@ void ColorReset(void)
 /*
  * Text formatting functions
  */
-void InitConsole(void)
+void InitConsole(char *sWindowTitle)
 {
 	/*
 	 * Windows console API
@@ -56,20 +56,7 @@ void InitConsole(void)
 	 */
 
 	// Change window title for custom branding
-#if FEAT_CUSTOM_BRAND == 1
-	SetConsoleTitle(COMPANY_NAME);
-#else
-	SetConsoleTitle("Burger Joint");
-#endif
-
-	// Change console to full screen
-	// https://www.dreamincode.net/forums/topic/22914-make-console-full-screen/
-#if OPT_FULLSCREEN == 1
-	keybd_event(VK_MENU, 0x38, 0, 0);
-	keybd_event(VK_RETURN, 0x1c, 0, 0);
-	keybd_event(VK_RETURN, 0x1c, KEYEVENTF_KEYUP, 0);
-	keybd_event(VK_MENU, 0x38, KEYEVENTF_KEYUP, 0);
-#endif
+	SetConsoleTitle(sWindowTitle);
 
 	// Get console dimensions (the draw functions rely on this info)
 	// https://stackoverflow.com/questions/6812224/getting-terminal-size-in-c-for-windows
