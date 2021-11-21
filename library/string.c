@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#include "libstr.h"
+#include "string.h"
 
 char *TrimString(char *sString)
 {
