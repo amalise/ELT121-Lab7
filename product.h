@@ -1,8 +1,49 @@
 #ifndef INC_PRODUCT_H
 #define INC_PRODUCT_H
 
-#include "category.h"
+struct Product
+{
+	char   *sName;
+	float   fPrice;
+};
 
+typedef struct Product Product;
+
+
+void LoadProducts(void);
+
+void SaveProducts(void);
+
+void SortProductsByName(void);
+
+void SortProductsByPrice(void);
+
+// Returns number of total products
+int GetProductCount(void);
+
+// Returns the ith product
+Product *GetProduct(int i);
+
+// Add a product to the list
+void AddProduct(Product *p);
+
+void RemoveProduct(int i);
+
+void ReplaceProduct(int i, Product *p);
+
+void UpdateProductName(int i, char *sName);
+
+void UpdateProductPrice(int i, float fPrice);
+
+Product *CreateProduct(char *sName, float fPrice);
+
+void DeleteProduct(Product *p);
+
+
+
+
+
+/*
 struct ProductVariant
 {
 	char   *sName;
@@ -29,5 +70,6 @@ struct ProductList *ReadProductFile(const char *sFileName);
 void WriteProductFile(struct ProductList *pProducts, const char *sFileName);
 void ProductSort(struct ProductList *pProducts);
 void FreeProductList(struct ProductList *pProducts);
+/**/
 
 #endif // INC_PRODUCT_H

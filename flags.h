@@ -10,11 +10,7 @@
  * https://onlineasciitools.com/convert-text-to-ascii-art
  */
 
-#define COMPANY_NAME          "Pretty Big Pickle Company"
-#define BRAND_LOGO_FILE       "logo.txt"
-
-#define OPT_FULLSCREEN        0 // DO NOT USE
-
+#define FEAT_FIXED_DISPLAY    1
 #define FEAT_COLOR_DISPLAY    1
 
 #define FEAT_CUSTOM_BRAND     1
