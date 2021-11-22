@@ -1,24 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "flags.h"
-#include "lib/console.h"
+#include "library/settings.h"
+#include "library/console.h"
+#include "library/libstr.h"
 
+#include "branding.h"
+
+void SetDefaultSettings(void);
 void MainMenu(void);
 
 /*
+ * Program Name:   Lab 8
+ *
+ * Description:    This is a Point of Sale program.
+ *
+ * Features:       flags.h    - Global preprocessor settings
+ *                 settings.h - Run-time settings
  *
  */
-void main(void)
+int main(void)
 {
-    InitConsole();           // Initialize the UI
+    LoadSettings();
+    if(CountSettings() == 0)
+        SetDefaultSettings();
 
-    MainMenu();              // Main Program Loop
+    InitConsole(GetSetting("Company Name"));
+    MainMenu();
 
-    DrawCopyright();         // Credits on Exit
+    return 0;
+}
+
+void SetDefaultSettings(void)
+{
+    AddSetting("Logo File",    "resource/logo.txt");
+    AddSetting("Company Name", "Pretty Big Pickle Company");
+
+    SaveSettings();
 }
 
 void MainMenu(void)
 {
+    DrawLogo();
 
+    // XXXX
+
+    DrawCopyright();
 }

@@ -10,7 +10,7 @@
  * https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
  */
 #define FG_BLACK   "\x1b[30m"
-#define FG_RED     "\033[31m"
+#define FG_RED     "\x1b[31m"
 #define FG_GREEN   "\x1b[32m"
 #define FG_YELLOW  "\x1b[33m"
 #define FG_BLUE    "\x1b[34m"
@@ -19,7 +19,7 @@
 #define FG_WHITE   "\x1b[37m"
 
 #define FG_B_BLACK   "\x1b[90m"
-#define FG_B_RED     "\033[91m"
+#define FG_B_RED     "\x1b[91m"
 #define FG_B_GREEN   "\x1b[92m"
 #define FG_B_YELLOW  "\x1b[93m"
 #define FG_B_BLUE    "\x1b[94m"

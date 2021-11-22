@@ -1,8 +1,10 @@
 #include <stdio.h>
 
+#include "library/settings.h"
+#include "library/console.h"
+
 #include "flags.h"
 #include "branding.h"
-#include "console.h"
 
 #define BUFFER_LENGTH 255
 
@@ -12,7 +14,7 @@ void DrawLogo(void)
 	char buffer[BUFFER_LENGTH];
 
 #if FEAT_CUSTOM_LOGO == 1
-	pFile = fopen(BRAND_LOGO_FILE, "r");
+	pFile = fopen(GetSetting("Logo File"), "r");
 #else
 	pFile = NULL;
 #endif
@@ -29,11 +31,11 @@ void DrawLogo(void)
 	{
 		DrawCenteredText("Welcome to the");
 #if FEAT_CUSTOM_BRAND == 1
-		DrawCenteredText(COMPANY_NAME);
+		DrawCenteredText(GetSetting("Company Name"));
 #else
 		DrawCenteredText("Burger Joint");
 #endif
-		DrawCenteredText("Point-of-Sale sytem");
+		DrawCenteredText("Point-of-Sale system");
 		printf("\n");
 	}
 	DrawCenteredText("------------------------------");
