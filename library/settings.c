@@ -255,7 +255,11 @@ void ChangeSetting      (const char *sName, const char   *sValue)
 {
 	Setting *pSetting = FindSetting(sName);
 
-	if(pSetting)
+	if(strlen(sValue) == 0)
+	{
+        RemoveSetting(sName);
+	}
+	else if(pSetting)
 	{
 		free(pSetting->sValue);
 		pSetting->sValue = malloc(strlen(sValue) + 1);

@@ -10,8 +10,6 @@
  * https://onlineasciitools.com/convert-text-to-ascii-art
  */
 
-#define OPT_FULLSCREEN        0 // DO NOT USE
-
 #define FEAT_FIXED_DISPLAY    1
 #define FEAT_COLOR_DISPLAY    1
 

@@ -1,6 +1,4 @@
 ### To Compile
-- LoadSettings()
-- GetSetting(string)
 
 ### General
 - MainMenu() 

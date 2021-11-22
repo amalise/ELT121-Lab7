@@ -53,4 +53,7 @@ void DrawCopyright(void)
 	DrawCenteredText("DEVELOPERS");
 	DrawCenteredText("Adal Catano, Andrew Knight");
 	DrawCenteredText("Karl Mariger, Alex Woodley");
+	printf("\n");
+	DrawCenteredText("\"A Sandwich with a Pretty Big Pickle In It\"");
+	DrawCenteredText("Ryan George");
 }

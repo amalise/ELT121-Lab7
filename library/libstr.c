@@ -8,7 +8,7 @@ char *StringTrim(char *sString)
 {
     int iLen = 0;
     char *cFront = sString;
-    char *cEnd = NULL;
+    char *cEnd   = NULL;
 
     if(sString == NULL)
 	{
@@ -20,29 +20,23 @@ char *StringTrim(char *sString)
     }
 
     iLen = strlen(sString);
-    cEnd = sString + iLen;
+    cEnd = sString + iLen - 1;
 
-    while(isspace((unsigned char) *cFront))
+    while(isspace(*cFront))
+    {
         cFront++;
+    }
     if(cEnd != cFront)
     {
-        while(isspace((unsigned char *) *(--cEnd)) && (cEnd != cFront))
-            ;
+        while(isspace(*cEnd) && (cEnd != cFront))
+            cEnd--;
     }
+    *(cEnd + 1) = '\0';
 
-    if(cFront != sString && cEnd == cFront)
-    {
-    	*sString = '\0';
-    }
-    else if(sString + iLen - 1 != cEnd)
-    {
-    	*(cEnd + 1) = '\0';
-    }
-
-    cEnd = sString;
     if(cFront != sString)
     {
-    	while (*cFront)
+        cEnd = sString;
+    	while(*cFront)
     	{
     		*cEnd++ = *cFront++;
     	}
@@ -56,7 +50,6 @@ char *StringToUpper(char *sString)
 {
     for(int i = 0; i < strlen(sString); i++)
         sString[i] = toupper(sString[i]);
-
     return sString;
 }
 

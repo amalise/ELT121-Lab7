@@ -4,6 +4,7 @@
 #include "library/settings.h"
 #include "library/console.h"
 #include "library/libstr.h"
+#include "library/menu.h"
 
 #include "branding.h"
 
@@ -26,7 +27,12 @@ int main(void)
         SetDefaultSettings();
 
     InitConsole(GetSetting("Company Name"));
+
+    DrawLogo();
+
     MainMenu();
+
+    DrawCopyright();
 
     return 0;
 }
@@ -41,9 +47,18 @@ void SetDefaultSettings(void)
 
 void MainMenu(void)
 {
-    DrawLogo();
+    Menu *myMenu = malloc(sizeof(Menu));
+
+    InitializeMenu(myMenu, "Main Menu\n---------", "Selection:", 10, 5, MENU_STYLE_NUMERIC);
+    AddMenuItem  (myMenu, "Square",   1);
+    AddMenuItem  (myMenu, "Triangle", 2);
+    AddMenuItem  (myMenu, "Circle",   3);
+
+    int i = DrawMenu(myMenu);
+
+    printf("\n\nMenu selection: %i\n", i);
+
 
     // XXXX
 
-    DrawCopyright();
 }
