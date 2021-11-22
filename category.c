@@ -9,6 +9,7 @@
 
 #define BUFFER_LENGTH 255
 
+/*
 struct CategoryList *ReadCategoryFile(const char *sFileName)
 {
 	FILE *pFile;
@@ -67,3 +68,4 @@ void FreeCategoryList(struct CategoryList *pCategories)
 		free(pTmp);
 	}
 }
+/**/

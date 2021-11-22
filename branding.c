@@ -1,18 +1,20 @@
 #include <stdio.h>
 
+#include "library/settings.h"
+#include "library/console.h"
+
 #include "flags.h"
 #include "branding.h"
-#include "console.h"
 
 #define BUFFER_LENGTH 255
 
-void DrawLogo(const char *sCompanyName, const char *sLogoFileName)
+void DrawLogo(void)
 {
 	FILE *pFile;
 	char buffer[BUFFER_LENGTH];
 
 #if FEAT_CUSTOM_LOGO == 1
-	pFile = fopen(sLogoFileName, "r");
+	pFile = fopen(GetSetting("Logo File"), "r");
 #else
 	pFile = NULL;
 #endif
@@ -29,11 +31,11 @@ void DrawLogo(const char *sCompanyName, const char *sLogoFileName)
 	{
 		DrawCenteredText("Welcome to the");
 #if FEAT_CUSTOM_BRAND == 1
-		DrawCenteredText(sCompanyName);
+		DrawCenteredText(GetSetting("Company Name"));
 #else
 		DrawCenteredText("Burger Joint");
 #endif
-		DrawCenteredText("Point-of-Sale sytem");
+		DrawCenteredText("Point-of-Sale system");
 		printf("\n");
 	}
 	DrawCenteredText("------------------------------");
@@ -51,4 +53,7 @@ void DrawCopyright(void)
 	DrawCenteredText("DEVELOPERS");
 	DrawCenteredText("Adal Catano, Andrew Knight");
 	DrawCenteredText("Karl Mariger, Alex Woodley");
+	printf("\n");
+	DrawCenteredText("\"A Sandwich with a Pretty Big Pickle In It\"");
+	DrawCenteredText("Ryan George");
 }
