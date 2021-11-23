@@ -7,6 +7,7 @@
 #include "library/menu.h"
 
 #include "branding.h"
+#include "product.h"
 
 void SetDefaultSettings(void);
 void MainMenu(void);
@@ -25,6 +26,7 @@ int main(void)
     LoadSettings();
     if(CountSettings() == 0)
         SetDefaultSettings();
+//    LoadProducts();
 
     InitConsole(GetSetting("Company Name"));
 

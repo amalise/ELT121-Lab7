@@ -40,6 +40,7 @@ void LoadProducts(void)
 	    AddProduct(CreateProduct("VeggieBurger (double)", 9.49));
 	    AddProduct(CreateProduct("VeggieBurger (triple)", 9.69));
 	}
+//	printf("PRODUCT_COUNT = %d\n", PRODUCT_COUNT);
     for(int i = 0; i < MAX_PRODUCTS; i++)
     {
         printf("PRODUCT[%d]: %d\n", i, &PRODUCTS[i]);

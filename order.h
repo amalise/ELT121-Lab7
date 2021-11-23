@@ -19,6 +19,8 @@ typedef struct Order Order;
 
 void InitializeOrder       (Order *pOrder);
 
+void DrawOrder             (Order *pOrder);
+
 void AddProductToOrder     (Order *pOrder, Product *pProduct, int iQuantity);
 void RemoveProductFromOrder(Order *pOrder, Product *pProduct, int iQuantity);
 void ModifyProductQuantity (Order *pOrder, Product *pProduct, int iQuantity);

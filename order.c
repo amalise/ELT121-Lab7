@@ -31,6 +31,34 @@ void InitializeOrder       (Order *pOrder)
     }
 }
 
+/*
+ * ITEM                       PRICE    QTY   EXT $
+ * ---------------------      -------  ---   -------
+ * Steak                      $221.20    2   $  4.80
+ * Cantalope                             7   $  2.18
+ */
+void DrawOrder(Order *pOrder)
+{
+    OrderItem *pCur;
+
+    if(pOrder)
+    {
+        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "", "ITEM", "PRICE", "QTY", "EXT $");
+        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
+               "----------------------------------------", "-------", "---", "-------");
+        for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
+        {
+            printf("%*s%-50s  $%3.2f  %3d  $%3.2f\n", 20, "",
+                   pCur->pProduct->sName, pCur->pProduct->fPrice, pCur->iQuantity,
+                   (pCur->iQuantity * pCur->pProduct->fPrice));
+        }
+        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
+               "----------------------------------------", "-------", "---", "-------");
+        printf("%*s%50s  %-7s  %-3s  $%3.2f\n", 20, "", "TOTAL", "", "",
+               CalculateTotalPrice(pOrder));
+    }
+}
+
 void AddProductToOrder     (Order *pOrder, Product *pProduct, int iQuantity)
 {
     ModifyProductQuantity(pOrder, pProduct, iQuantity);

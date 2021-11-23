@@ -6,14 +6,63 @@
 #include "library/menu.h"
 #include "branding.h"
 #include "user.h"
+#include "product.h"
+#include "order.h"
+
+#define MENU_MARGIN 50
+
+Product *SelectProduct(void)
+{
+    int i;
+    Menu myMenu;
+    Product *pTmp;
+
+    InitializeMenu(&myMenu, "", "Please select an item:", MENU_MARGIN, 0, MENU_STYLE_NUMERIC);
+
+    for(i = 0; i < GetProductCount(); i++)
+    {
+        pTmp = GetProduct(i);
+        AddMenuItem(&myMenu, pTmp->sName, i);
+    }
+
+    i = DrawMenu(&myMenu);
+
+    return GetProduct(i);
+}
+
+int GetQuantity(Product *pProduct)
+{
+    int qty;
+
+    printf("\n%*sHow many %s do you want? ", MENU_MARGIN, "", pProduct->sName);
+    fflush(stdin);
+    sscanf("%i", &qty);
+    while(qty < 1)
+    {
+        if(qty < 1)
+        {
+            printf("\n%*s%sYou need to order non-imaginary food.%s\n%*sPlease enter a positive quantity: ",
+                   MENU_MARGIN, "", FG_B_RED, COLOR_RESET,
+                   MENU_MARGIN, "");
+        }
+        fflush(stdin);
+        sscanf("%i", &qty);
+    }
+
+    return qty;
+}
 
 void SalesMenu(void)
 {
-    Menu mySalesMenu;
-    int iSaleSelection;
+    Order    myOrder;
+    Product *pProduct;
+    int      iQuantity;
+
+    Menu     mySalesMenu;
+    int      iSaleSelection;
 
     // Create blank order
-
+    InitializeOrder(&myOrder);
 
     // Draw sales menu
     InitializeMenu(&mySalesMenu,
@@ -32,12 +81,15 @@ void SalesMenu(void)
         ConsoleClear();
 
         // Display Current Order
-        DrawLogo();
+//        DrawOrder(&myOrder);
 
         iSaleSelection = DrawMenu(&mySalesMenu);
         switch(iSaleSelection)
         {
         case 1:
+            pProduct  = SelectProduct();
+            iQuantity = GetQuantity(pProduct);
+            AddProductToOrder(&myOrder, pProduct, iQuantity);
             break;
         case 2:
             break;
