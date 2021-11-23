@@ -45,6 +45,10 @@ void SetDefaultSettings(void)
     SaveSettings();
 }
 
+/*
+ * Display User Login
+ *
+ */
 void MainMenu(void)
 {
     Menu myMenu;
@@ -55,6 +59,8 @@ void MainMenu(void)
     AddMenuItem   (&myMenu, "Circle",   43);
 
     int i = DrawMenu(&myMenu);
+
+    ConsoleClear();
 
     printf("\n\nMenu selection: %i\n", i);
 
