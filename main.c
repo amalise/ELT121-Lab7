@@ -28,9 +28,8 @@ int main(void)
 
     InitConsole(GetSetting("Company Name"));
 
-    DrawLogo();
-
-    MainMenu();
+    UserMenu();
+//    MainMenu();
 
     DrawCopyright();
 

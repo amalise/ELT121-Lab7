@@ -34,7 +34,7 @@ void SetMenuHeader(Menu *pMenu, const char *sHeader)
 	{
 		if(pMenu->sHeader)
 			free(pMenu->sHeader);
-		pMenu->sHeader = malloc(sizeof(sHeader));
+		pMenu->sHeader = malloc(strlen(sHeader) + 1);
 		strcpy(pMenu->sHeader, sHeader);
 	}
 }
@@ -45,7 +45,7 @@ void SetMenuPrompt(Menu *pMenu, const char *sPrompt)
 	{
 		if(pMenu->sPrompt)
 			free(pMenu->sPrompt);
-		pMenu->sPrompt = malloc(sizeof(sPrompt));
+		pMenu->sPrompt = malloc(strlen(sPrompt) + 1);
 		strcpy(pMenu->sPrompt, sPrompt);
 	}
 }
@@ -92,8 +92,8 @@ void AddMenuItemKey(Menu *pMenu, const char *sItem, const char *sKeys, const int
 			pMenu->pItems = malloc(sizeof(MenuItem));
 			pCur = pMenu->pItems;
 		}
-		pCur->sItem = malloc(sizeof(sItem));
-		pCur->sKeys = malloc(sizeof(sKeys));
+		pCur->sItem = malloc(strlen(sItem) + 1);
+		pCur->sKeys = malloc(strlen(sKeys) + 1);
 		strcpy(pCur->sItem, sItem);
 		strcpy(pCur->sKeys, sKeys);
 		pCur->iReturn = iReturn;

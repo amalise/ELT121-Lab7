@@ -47,6 +47,12 @@
 
 #define COLOR_RESET "\x1b[0m"
 
+// Determine console size, for text positioning
+void InitConsole(char *sWindowTitle);
+
+// Clear the screen
+void ConsoleClear(void);
+
 // Set Windows console to be ANSI compliant
 void FixWindows(void);
 
@@ -56,9 +62,6 @@ void SetColors(char *sFG, char *sBG);
 
 // Reset text to default
 void ColorReset(void);
-
-// Determine console size, for text positioning
-void InitConsole(char *sWindowTitle);
 
 // Position text horizontally in the window
 void DrawCenteredText(char *sText);
