@@ -6,7 +6,7 @@
 #include "category.h"
 #include "product.h"
 
-#include "libstr.h"
+#include "library/libstr.h"
 
 #define MAX_PRODUCTS 40
 
