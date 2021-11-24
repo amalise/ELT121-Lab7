@@ -31,9 +31,9 @@ void UserMenu(void)
     // Take menu action
     do
     {
-        ConsoleClear();
+        ClearConsole();
         DrawLogo();
-        iUserSelection = DrawMenu(&myMenu);
+        iUserSelection = QueryMenu(&myMenu);
         switch(iUserSelection)
         {
         case 1:

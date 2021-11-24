@@ -3,31 +3,32 @@
 
 #include "product.h"
 
-struct OrderItem
-{
-    Product *pProduct;
-    int      iQuantity;
-    struct OrderItem *pNext;
-};
-typedef struct OrderItem OrderItem;
+typedef struct s_OrderItem OrderItem;
+typedef struct s_Order Order;
 
-struct Order
+struct s_OrderItem
+{
+    SubProduct *pItem;
+    int         iQty;
+    OrderItem  *pNext;
+};
+
+struct s_Order
 {
     OrderItem *pItems;
 };
-typedef struct Order Order;
 
-void InitializeOrder       (Order *pOrder);
+void  InitializeOrder    (Order *pOrder);
 
-void DrawOrder             (Order *pOrder);
+void  DrawOrder          (Order *pOrder);
 
-void AddProductToOrder     (Order *pOrder, Product *pProduct, int iQuantity);
-void RemoveProductFromOrder(Order *pOrder, Product *pProduct, int iQuantity);
-void ModifyProductQuantity (Order *pOrder, Product *pProduct, int iQuantity);
-void DeleteProductFromOrder(Order *pOrder, Product *pProduct);
+void  AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty);
+void  RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty);
+void  ModifyItemQty      (Order *pOrder, SubProduct *pItem, int iQty);
+void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);
 
-void ClearOrder            (Order *pOrder);
+void  ClearOrder         (Order *pOrder);
 
-float CalculateTotalPrice  (Order *pOrder);
+float CalculateTotalPrice(Order *pOrder);
 
 #endif // INC_ORDER_H
