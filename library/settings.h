@@ -7,14 +7,15 @@
 #define SETTINGS_DELIM          '='
 #define SETTINGS_CASE_SENSITIVE 0
 
-struct Setting
+typedef struct s_Setting Setting;
+
+struct s_Setting
 {
 	char   *sName;
 	char   *sValue;
 	int     iValue;
 	double  dValue;
 };
-typedef struct Setting Setting;
 
 // Debugging
 void PrintSettings(void);

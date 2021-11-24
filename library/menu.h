@@ -5,16 +5,18 @@
 #define MENU_STYLE_ALPHA   1
 #define MENU_STYLE_NUMERIC 2
 
-struct MenuItem
-{
-	char  *sItem;
-	char  *sKeys;
-	int    iReturn;
-	struct MenuItem *pNext;
-};
-typedef struct MenuItem MenuItem;
+typedef struct s_MenuItem MenuItem;
+typedef struct s_Menu Menu;
 
-struct Menu
+struct s_MenuItem
+{
+	char     *sItem;
+	char     *sKeys;
+	int       iReturn;
+	MenuItem *pNext;
+};
+
+struct s_Menu
 {
 	char     *sHeader;
 	char     *sPrompt;
@@ -23,7 +25,6 @@ struct Menu
 	int       iStyle;
 	MenuItem *pItems;
 };
-typedef struct Menu Menu;
 
 void InitializeMenu(Menu *pMenu,
                     const char *sHeader,

@@ -10,12 +10,13 @@
 /*
  * Global list of settings
  */
-struct SettingNode
+typedef struct s_SettingNode SettingNode;
+
+struct s_SettingNode
 {
-	Setting            *mySetting;
-	struct SettingNode *pNext;
+	Setting     *mySetting;
+	SettingNode *pNext;
 };
-typedef struct SettingNode SettingNode;
 
 SettingNode *SETTINGS = NULL;
 
