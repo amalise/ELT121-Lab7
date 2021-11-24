@@ -6,15 +6,15 @@
 /*
  * Private utility functions
  */
-OrderItem *FindOrderItem(Order *pOrder, Product *pProduct)
+OrderItem *FindOrderItem(Order *pOrder, SubProduct *pItem)
 {
     OrderItem *pCur;
 
     if(!pOrder) return NULL;
-    
+
     for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
-        if(pCur->pProduct == pProduct)
+        if(pCur->pItem == pItem)
         {
             return pCur;
         }
@@ -58,17 +58,17 @@ void DrawOrder(Order *pOrder)
            CalculateTotalPrice(pOrder));
 }
 
-void AddItemToOrder     (Order *pOrder, ProductVariant *pItem, int iQuantity)
+void AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty)
 {
-    ModifyItemQuantity(pOrder, pItem, iQuantity);
+    ModifyItemQty(pOrder, pItem, iQty);
 }
 
-void RemoveItemFromOrder(Order *pOrder, ProductVariant *pItem, int iQuantity)
+void RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty)
 {
-    ModifyItemQuantity(pOrder, pItem, -1 * iQuantity);
+    ModifyItemQty(pOrder, pItem, -1 * iQty);
 }
 
-void ModifyItemQuantity (Order *pOrder, ProductVariant *pItem, int iQuantity)
+void ModifyItemQty      (Order *pOrder, SubProduct *pItem, int iQty)
 {
     OrderItem *pCur;
 
@@ -78,29 +78,29 @@ void ModifyItemQuantity (Order *pOrder, ProductVariant *pItem, int iQuantity)
 
     if(pCur = FindOrderItem(pOrder, pItem))
     {
-        if(iQuantity == 0)
+        if(iQty == 0)
             DeleteItemFromOrder(pOrder, pItem);
-        pCur->iQuantity += iQuantity;
-        if(pCur->iQuantity == 0)
+        pCur->iQty += iQty;
+        if(pCur->iQty == 0)
             DeleteItemFromOrder(pOrder, pItem);
     }
-    else if(iQuantity > 0)
+    else if(iQty > 0)
     {
         pCur = malloc(sizeof(OrderItem));
-        pCur->pItem     = pItem;
-        pCur->iQuantity = iQuantity;
-        pCur->pNext     = pOrder->pItems;
-        pOrder->pItems  = pCur;
+        pCur->pItem    = pItem;
+        pCur->iQty     = iQty;
+        pCur->pNext    = pOrder->pItems;
+        pOrder->pItems = pCur;
     }
 }
 
-void DeleteItemFromOrder(Order *pOrder, ProductVariant *pItem)
+void DeleteItemFromOrder(Order *pOrder, SubProduct *pItem)
 {
     OrderItem *pCur, *pPre;
 
     if(!pOrder) return;
 
-    if(pCur = FindProduct(pOrder, pProduct))
+    if(pCur = FindOrderItem(pOrder, pItem))
     {
         if(pCur == pOrder->pItems)
         {
@@ -140,7 +140,7 @@ float CalculateTotalPrice   (Order *pOrder)
     {
         for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
         {
-            fTotal += (pCur->iQuantity * pCur->pItem->fPrice);
+            fTotal += (pCur->iQty * pCur->pItem->fPrice);
         }
     }
     return fTotal;

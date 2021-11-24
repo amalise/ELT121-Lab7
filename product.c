@@ -42,64 +42,64 @@ void LoadProducts(ProductList *pProductList, char *sFileName)
 	else
 */	{
 		pTmp = AddProduct(pProductList, "Hamburger", SANDWICH);
-		AddProductVariant(pTmp, "Single", 2.29);
-		AddProductVariant(pTmp, "Double", 2.89);
-		AddProductVariant(pTmp, "Triple", 3.49);
+		AddSubProduct(pTmp, "Single", 2.29);
+		AddSubProduct(pTmp, "Double", 2.89);
+		AddSubProduct(pTmp, "Triple", 3.49);
 
 		pTmp = AddProduct(pProductList, "Cheeseburger", SANDWICH);
-		AddProductVariant(pTmp, "Single", 2.69);
-		AddProductVariant(pTmp, "Double", 3.09);
-		AddProductVariant(pTmp, "Triple", 3.79);
+		AddSubProduct(pTmp, "Single", 2.69);
+		AddSubProduct(pTmp, "Double", 3.09);
+		AddSubProduct(pTmp, "Triple", 3.79);
 
 		pTmp = AddProduct(pProductList, "Bacon Cheeseburger", SANDWICH);
-		AddProductVariant(pTmp, "Single", 3.19);
-		AddProductVariant(pTmp, "Double", 3.59);
-		AddProductVariant(pTmp, "Triple", 4.29);
+		AddSubProduct(pTmp, "Single", 3.19);
+		AddSubProduct(pTmp, "Double", 3.59);
+		AddSubProduct(pTmp, "Triple", 4.29);
 
 		pTmp = AddProduct(pProductList, "Gardenburger", SANDWICH);
-		AddProductVariant(pTmp, "Single", 2.89);
-		AddProductVariant(pTmp, "Double", 3.49);
-		AddProductVariant(pTmp, "Triple", 4.09);
+		AddSubProduct(pTmp, "Single", 2.89);
+		AddSubProduct(pTmp, "Double", 3.49);
+		AddSubProduct(pTmp, "Triple", 4.09);
 
 		pTmp = AddProduct(pProductList, "French Fries", SIDE);
-		AddProductVariant(pTmp, "Small",  1.19);
-		AddProductVariant(pTmp, "Medium", 1.49);
-		AddProductVariant(pTmp, "Large",  1.79);
+		AddSubProduct(pTmp, "Small",  1.19);
+		AddSubProduct(pTmp, "Medium", 1.49);
+		AddSubProduct(pTmp, "Large",  1.79);
 
 		pTmp = AddProduct(pProductList, "Sweet Potato Fries", SIDE);
-		AddProductVariant(pTmp, "Small",  1.29);
-		AddProductVariant(pTmp, "Medium", 1.59);
-		AddProductVariant(pTmp, "Large",  1.89);
+		AddSubProduct(pTmp, "Small",  1.29);
+		AddSubProduct(pTmp, "Medium", 1.59);
+		AddSubProduct(pTmp, "Large",  1.89);
 
 		pTmp = AddProduct(pProductList, "Onion Rings", SIDE);
-		AddProductVariant(pTmp, "Small",  1.39);
-		AddProductVariant(pTmp, "Medium", 1.79);
-		AddProductVariant(pTmp, "Large",  2.19);
+		AddSubProduct(pTmp, "Small",  1.39);
+		AddSubProduct(pTmp, "Medium", 1.79);
+		AddSubProduct(pTmp, "Large",  2.19);
 
 		pTmp = AddProduct(pProductList, "Tater Tots", SIDE);
-		AddProductVariant(pTmp, "Small",  1.29);
-		AddProductVariant(pTmp, "Medium", 1.59);
-		AddProductVariant(pTmp, "Large",  1.89);
+		AddSubProduct(pTmp, "Small",  1.29);
+		AddSubProduct(pTmp, "Medium", 1.59);
+		AddSubProduct(pTmp, "Large",  1.89);
 
 		pTmp = AddProduct(pProductList, "Soda", BEVERAGE);
-		AddProductVariant(pTmp, "Small",  2.09);
-		AddProductVariant(pTmp, "Medium", 2.49);
-		AddProductVariant(pTmp, "Large",  2.89);
+		AddSubProduct(pTmp, "Small",  2.09);
+		AddSubProduct(pTmp, "Medium", 2.49);
+		AddSubProduct(pTmp, "Large",  2.89);
 
 		pTmp = AddProduct(pProductList, "Vanilla Milkshake", BEVERAGE);
-		AddProductVariant(pTmp, "Small",  3.19);
-		AddProductVariant(pTmp, "Medium", 3.89);
-		AddProductVariant(pTmp, "Large",  4.59);
+		AddSubProduct(pTmp, "Small",  3.19);
+		AddSubProduct(pTmp, "Medium", 3.89);
+		AddSubProduct(pTmp, "Large",  4.59);
 
 		pTmp = AddProduct(pProductList, "Chocolate Milkshake", BEVERAGE);
-		AddProductVariant(pTmp, "Small",  3.19);
-		AddProductVariant(pTmp, "Medium", 3.89);
-		AddProductVariant(pTmp, "Large",  4.59);
+		AddSubProduct(pTmp, "Small",  3.19);
+		AddSubProduct(pTmp, "Medium", 3.89);
+		AddSubProduct(pTmp, "Large",  4.59);
 
 		pTmp = AddProduct(pProductList, "Coffee", BEVERAGE);
-		AddProductVariant(pTmp, "Small",  1.09);
-		AddProductVariant(pTmp, "Medium", 1.39);
-		AddProductVariant(pTmp, "Large",  1.69);
+		AddSubProduct(pTmp, "Small",  1.09);
+		AddSubProduct(pTmp, "Medium", 1.39);
+		AddSubProduct(pTmp, "Large",  1.69);
 	}
 }
 
@@ -126,7 +126,7 @@ void SortProducts(ProductList *pProductList)
 void DrawMenu        (ProductList *pProductList, ProductType eType)
 {
 	Product        *pCurP;
-	ProductVariant *pCurV;
+	SubProduct *pCurV;
 
 	if(!pProductList) return;
 
@@ -218,7 +218,7 @@ Product        *QueryProductByType (ProductList *pProductList, ProductType eType
 	// XXXX
 }
 
-ProductVariant *QueryProductVariant(Product *pProduct)
+SubProduct *QuerySubProduct(Product *pProduct)
 {
 	if(!pProductList) return;
 
@@ -228,7 +228,7 @@ ProductVariant *QueryProductVariant(Product *pProduct)
 /*
  * Product counts
  */
-int GetProductCount (ProductList *pProductList)
+int GetProductCount   (ProductList *pProductList)
 {
 	if(!pProductList) return 0;
 
@@ -266,23 +266,31 @@ int GetProductTypeCount(ProductList *pProductList, ProductType eType)
 	return iCount;
 }
 
-int GetSandwichCount(ProductList *pProductList)
+int GetSandwichCount  (ProductList *pProductList)
 {
 	return GetProductTypeCount(pProductList, SANDWICH);
 }
 
-int GetSideCount    (ProductList *pProductList)
+int GetSideCount      (ProductList *pProductList)
 {
 	return GetProductTypeCount(pProductList, SIDE);
 }
 
-int GetBeverageCount(ProductList *pProductList)
+int GetBeverageCount  (ProductList *pProductList)
 {
 	return GetProductTypeCount(pProductList, BEVERAGE);
 }
 
-int GetCouponCount  (ProductList *pProductList)
+int GetCouponCount    (ProductList *pProductList)
 {
+	return GetProductTypeCount(pProductList, COUPON);
+}
+
+int GetSubProductCount(ProductList *pProductList)
+{
+    int iCount = 0;
+    SubProduct *pTmp;
+
 	return GetProductTypeCount(pProductList, COUPON);
 }
 
@@ -291,14 +299,14 @@ int GetCouponCount  (ProductList *pProductList)
  */
 void FreeProduct(Product *pProduct)
 {
-	pProductVariants *pRip;
+	pSubProducts *pRip;
 
 	if(!pProduct) return;
 
-	while(pProduct->pVariants)
+	while(pProduct->pSubProducts)
 	{
-		pRip = pProduct->pVariants;
-		pProduct->pVariants = pProduct->pVariants->pNext;
+		pRip = pProduct->pSubProduct;
+		pProduct->pSubProduct = pProduct->pSubProduct->pNext;
 		free(pRip->sName);
 		free(pRip);
 	}
@@ -308,7 +316,7 @@ void FreeProduct(Product *pProduct)
 /*
  * Add Data
  */
-Product *AddProduct       (ProductList *pProductList, char *sName, ProductType eType)
+Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eType)
 {
 	Product *pCur;
 
@@ -384,19 +392,19 @@ Product *AddProduct       (ProductList *pProductList, char *sName, ProductType e
 	}
 	pCur->sName = malloc(strlen(sName) + 1);
 	strcpy(pCur->sName, sName);
-	pCur->eType     = eType;
-	pCur->pVariants = NULL;
-	pCur->pNext     = NULL;
-	pCur->pParent   = pProductList;
+	pCur->eType        = eType;
+	pCur->pSubProducts = NULL;
+	pCur->pNext        = NULL;
+	pCur->pParent      = pProductList;
 }
 
-void     AddProductVariant(Product *pProduct, char *sName, float fPrice)
+void     AddSubProduct(Product *pProduct, char *sName, float fPrice)
 {
-	ProductVariant *pCur;
+	SubProduct *pCur;
 
 	if(!pProduct) return;
 
-	if(pCur = FindProductVariant(pProduct, sName))
+	if(pCur = FindSubProduct(pProduct, sName))
 	{
 		pCur->fPrice = fPrice;
 		return;
@@ -404,14 +412,14 @@ void     AddProductVariant(Product *pProduct, char *sName, float fPrice)
 
 	if(!pProduct->pVariants)
 	{
-		pProduct->pVariants = malloc(sizeof(ProductVariant));
+		pProduct->pVariants = malloc(sizeof(SubProduct));
 		pCur = pCur->pVariants;
 	}
 	else
 	{
 		for(pCur = pProduct->pVariants; pCur->pNext; pCur = pCur->pNext)
 			;
-		pCur->pNext = malloc(sizeof(ProductVariant));
+		pCur->pNext = malloc(sizeof(SubProduct));
 		pCur = pCur->pNext;
 	}
 	pCur->sName = malloc(strlen(sName) + 1);
@@ -525,8 +533,8 @@ void     ChangeProductName(Product *pProduct, char *sName)
 
 void     ChangeProductType(Product *pProduct, ProductType eType)
 {
-	Product        *pNewProduct;
-	ProductVariant *pCurVariant;
+	Product    *pNewProduct;
+	SubProduct *pCurVariant;
 
 	if(!pProduct) return;
 
@@ -536,17 +544,17 @@ void     ChangeProductType(Product *pProduct, ProductType eType)
 	ChangeProductName(pNewProduct, pProduct->sName);
 	for(pCurVariant = pProduct->pVariants; pCurVariant; pCurVariant = pCurVariant->pNext)
 	{
-		AddProductVariant(pNewProduct, pCurVariant->sName, pCurVariant->fPrice);
+		AddSubProduct(pNewProduct, pCurVariant->sName, pCurVariant->fPrice);
 	}
 	RemoveProduct(pProduct);
 }
 
 /*
- * Modify Product Variants
+ * Modify SubProduct
  */
-ProductVariant *FindProductVariant       (Product *pProduct, char *sName)
+SubProduct *FindSubProduct       (Product *pProduct, char *sName)
 {
-	ProductVariant *pCur;
+	SubProduct *pCur;
 
 	if(!pProduct) return;
 
@@ -559,40 +567,40 @@ ProductVariant *FindProductVariant       (Product *pProduct, char *sName)
 	return NULL;
 }
 
-void            RemoveProductVariant     (Product *pProductVariant)
+void        RemoveSubProduct     (SubProduct *pSubProduct)
 {
-	ProductVariant *pPre;
+	SubProduct *pPre;
 
-	if(!pProductVariant) return;
+	if(!pSubProduct) return;
 
-	if(pProductVariant->pParent->pVariants == pProductVariant)
+	if(pSubProduct->pParent->pSubProducts == pSubProduct)
 	{
-		pProductVariant->pParent->pVariants = pProductVariant->pNext;
-		free(pProductVariant->sName);
-		free(pCur);
+		pSubProduct->pParent->pSubProducts = pSubProduct->pNext;
+		free(pSubProduct->sName);
+		free(pSubProduct);
 	}
 	else
 	{
-		for(pPre - pProductVariant->pParent->pVariants; pPre->pNext != pProductVariant; pPre = pPre->pNext)
+		for(pPre = pSubProduct->pParent->pSubProducts; pPre->pNext != pSubProduct; pPre = pPre->pNext)
 			;
-		pPre->pNext = pCur->pNext;
-		free(pPre->sName);
-		free(pPre);
+		pPre->pNext = pSubProduct->pNext;
+		free(pSubProduct->sName);
+		free(pSubProduct);
 	}
 }
 
-void            ChangeProductVariantName (ProductVariant *pProductVariant, char *sName)
+void        ChangeSubProductName (SubProduct *pSubProduct, char *sName)
 {
-	if(!pProductVariant) return;
+	if(!pSubProduct) return;
 
-	free(pProductVariant->sName);
-	pProductVariant->sName = malloc(strlen(sName) + 1);
-	strcpy(pProductVariant->sName, sName);
+	free(pSubProduct->sName);
+	pSubProduct->sName = malloc(strlen(sName) + 1);
+	strcpy(pSubProduct->sName, sName);
 }
 
-void            ChangeProductVariantPrice(ProductVariant *pProductVariant, float fPrice)
+void        ChangeSubProductPrice(SubProduct *pSubProduct, float fPrice)
 {
-	if(!pProductVariant) return;
+	if(!pSubProduct) return;
 
-	pProductVariant->fPrice = fPrice;
+	pSubProduct->fPrice = fPrice;
 }

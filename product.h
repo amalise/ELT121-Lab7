@@ -4,27 +4,27 @@
 typedef enum e_ProductType ProductType;
 enum e_ProductType {SANDWICH, SIDE, BEVERAGE, COUPON};
 
-typedef struct s_ProductVariant ProductVariant;
-typedef struct s_Product        Product;
-typedef struct s_ProductList    ProductList;
+typedef struct s_SubProduct  SubProduct;
+typedef struct s_Product     Product;
+typedef struct s_ProductList ProductList;
 
-struct s_ProductVariant
+struct s_SubProduct
 {
-	char           *sName;
-	float           fPrice;
+	char       *sName;
+	float       fPrice;
 	// List variables
-	ProductVariant *pNext;
-	Product        *pParent;
+	SubProduct *pNext;
+	Product    *pParent;
 };
 
 struct s_Product
 {
-	char           *sName;
-	ProductType     eType;
-	ProductVariant *pVariants;
+	char        *sName;
+	ProductType  eType;
+	SubProduct  *pSubProducts;
 	// List variables
-	Product        *pNext;
-	ProductList    *pParent;
+	Product     *pNext;
+	ProductList *pParent;
 };
 
 struct s_ProductList
@@ -61,30 +61,31 @@ void DrawBeverageMenu(ProductList *pProductList);
 void DrawCouponMenu  (ProductList *pProductList);
 
 /*
- * Main functions for interracting with program
+ * Main functions for interacting with program
  */
-void DrawFullMenu    (ProductList *pProductList); // DOES NOT DISPLAY COUPONS
-ProductType     QueryProductType   (void);
-Product        *QueryProduct       (ProductList *pProductList, ProductType eType);
-ProductVariant *QueryProductVariant(Product *pProduct);
+void         DrawFullMenu    (ProductList *pProductList); // DOES NOT DISPLAY COUPONS
+ProductType  QueryProductType(void);
+Product     *QueryProduct    (ProductList *pProductList, ProductType eType);
+SubProduct  *QuerySubProduct (Product *pProduct);
 
 /*
- * Product counts
+ * Get counts
  */
-int GetProductCount (ProductList *pProductList); // DOES NOT COUNT COUPONS
-int GetSandwichCount(ProductList *pProductList);
-int GetSideCount    (ProductList *pProductList);
-int GetBeverageCount(ProductList *pProductList);
-int GetCouponCount  (ProductList *pProductList);
+int GetProductCount   (ProductList *pProductList); // DOES NOT COUNT COUPONS
+int GetSandwichCount  (ProductList *pProductList);
+int GetSideCount      (ProductList *pProductList);
+int GetBeverageCount  (ProductList *pProductList);
+int GetCouponCount    (ProductList *pProductList);
+int GetSubProductCount(Product *pProduct);
 
 /*
  * Add Data
  */
-Product *AddProduct       (ProductList *pProductList, char *sName, ProductType eType);
-void     AddProductVariant(Product *pProduct, char *sName, float fPrice);
+Product *AddProduct   (ProductList *pProductList, char *sName, ProductType eType);
+void     AddSubProduct(Product *pProduct, char *sName, float fPrice);
 
 /*
- * Modify Products
+ * Work with Products
  */
 Product *FindProduct      (ProductList *pProductList, char *sName);
 void     RemoveProduct    (Product *pProduct);
@@ -92,11 +93,11 @@ void     ChangeProductName(Product *pProduct, char *sName);
 void     ChangeProductType(Product *pProduct, ProductType eType);
 
 /*
- * Modify Product Variants
+ * Work with SubProducts
  */
-ProductVariant *FindProductVariant       (Product *pProduct, char *sName);
-void            RemoveProductVariant     (Product *pProduct, char *sName);
-void            ChangeProductVariantName (ProductVariant *pProductVariant, char *sName);
-void            ChangeProductVariantPrice(ProductVariant *pProductVariant, float fPrice);
+SubProduct *FindSubProduct       (Product *pProduct, char *sName);
+void        RemoveSubProduct     (SubProduct *pProduct, char *sName);
+void        ChangeSubProductName (SubProduct *pSubProduct, char *sName);
+void        ChangeSubProductPrice(SubProduct *pSubProduct, float fPrice);
 
 #endif // INC_PRODUCT_H

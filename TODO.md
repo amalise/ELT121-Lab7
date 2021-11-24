@@ -4,7 +4,7 @@
 
 - product.c
 -- QueryProductByType()
--- QueryProductVariant()
+-- QuerySubProduct()
 
 ### General
 - product.c
