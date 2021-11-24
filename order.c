@@ -6,20 +6,20 @@
 /*
  * Private utility functions
  */
-OrderItem *FindProduct(Order *pOrder, Product *pProduct)
+OrderItem *FindOrderItem(Order *pOrder, Product *pProduct)
 {
     OrderItem *pCur;
 
-    if(pOrder)
+    if(!pOrder) return NULL;
+    
+    for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
-        for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
+        if(pCur->pProduct == pProduct)
         {
-            if(pCur->pProduct == pProduct)
-            {
-                return pCur;
-            }
+            return pCur;
         }
     }
+
     return NULL;
  }
 
@@ -41,84 +41,78 @@ void DrawOrder(Order *pOrder)
 {
     OrderItem *pCur;
 
-    if(pOrder)
+    if(!pOrder) return;
+
+    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "", "ITEM", "PRICE", "QTY", "EXT $");
+    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
+           "----------------------------------------", "-------", "---", "-------");
+    for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
-        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "", "ITEM", "PRICE", "QTY", "EXT $");
-        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
-               "----------------------------------------", "-------", "---", "-------");
-        for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
-        {
-            printf("%*s%-50s  $%3.2f  %3d  $%3.2f\n", 20, "",
-                   pCur->pProduct->sName, pCur->pProduct->fPrice, pCur->iQuantity,
-                   (pCur->iQuantity * pCur->pProduct->fPrice));
-        }
-        printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
-               "----------------------------------------", "-------", "---", "-------");
-        printf("%*s%50s  %-7s  %-3s  $%3.2f\n", 20, "", "TOTAL", "", "",
-               CalculateTotalPrice(pOrder));
+        printf("%*s%-50s  $%3.2f  %3d  $%3.2f\n", 20, "",
+               pCur->pItem->sName, pCur->pItem->fPrice, pCur->iQuantity,
+               (pCur->iQuantity * pCur->pItem->fPrice));
     }
+    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
+           "----------------------------------------", "-------", "---", "-------");
+    printf("%*s%50s  %-7s  %-3s  $%3.2f\n", 20, "", "TOTAL", "", "",
+           CalculateTotalPrice(pOrder));
 }
 
-void AddProductToOrder     (Order *pOrder, Product *pProduct, int iQuantity)
+void AddItemToOrder     (Order *pOrder, ProductVariant *pItem, int iQuantity)
 {
-    ModifyProductQuantity(pOrder, pProduct, iQuantity);
+    ModifyItemQuantity(pOrder, pItem, iQuantity);
 }
 
-void RemoveProductFromOrder(Order *pOrder, Product *pProduct, int iQuantity)
+void RemoveItemFromOrder(Order *pOrder, ProductVariant *pItem, int iQuantity)
 {
-    ModifyProductQuantity(pOrder, pProduct, -1 * iQuantity);
+    ModifyItemQuantity(pOrder, pItem, -1 * iQuantity);
 }
 
-void ModifyProductQuantity (Order *pOrder, Product *pProduct, int iQuantity)
+void ModifyItemQuantity (Order *pOrder, ProductVariant *pItem, int iQuantity)
 {
     OrderItem *pCur;
 
-    if(!pProduct)
-    {
-        return;
-    }
+    if(!pItem) return;
 
-    if(pOrder)
+    if(!pOrder) return;
+
+    if(pCur = FindOrderItem(pOrder, pItem))
     {
-        if(pCur = FindProduct(pOrder, pProduct))
-        {
-            if(iQuantity == 0)
-                DeleteProductFromOrder(pOrder, pProduct);
-            pCur->iQuantity += iQuantity;
-            if(pCur->iQuantity == 0)
-                DeleteProductFromOrder(pOrder, pProduct);
-        }
-        else if(iQuantity > 0)
-        {
-            pCur = malloc(sizeof(OrderItem));
-            pCur->pProduct = pProduct;
-            pCur->iQuantity = iQuantity;
-            pCur->pNext = pOrder->pItems;
-            pOrder->pItems = pCur;
-        }
+        if(iQuantity == 0)
+            DeleteItemFromOrder(pOrder, pItem);
+        pCur->iQuantity += iQuantity;
+        if(pCur->iQuantity == 0)
+            DeleteItemFromOrder(pOrder, pItem);
+    }
+    else if(iQuantity > 0)
+    {
+        pCur = malloc(sizeof(OrderItem));
+        pCur->pItem     = pItem;
+        pCur->iQuantity = iQuantity;
+        pCur->pNext     = pOrder->pItems;
+        pOrder->pItems  = pCur;
     }
 }
 
-void DeleteProductFromOrder(Order *pOrder, Product *pProduct)
+void DeleteItemFromOrder(Order *pOrder, ProductVariant *pItem)
 {
     OrderItem *pCur, *pPre;
 
-    if(pOrder)
+    if(!pOrder) return;
+
+    if(pCur = FindProduct(pOrder, pProduct))
     {
-        if(pCur = FindProduct(pOrder, pProduct))
+        if(pCur == pOrder->pItems)
         {
-            if(pCur == pOrder->pItems)
-            {
-                pOrder->pItems = pOrder->pItems->pNext;
-                free(pCur);
-            }
-            else
-            {
-                for(pPre = pOrder->pItems; pPre->pNext != pCur; pPre = pPre->pNext)
-                    ;
-                pPre->pNext = pCur->pNext;
-                free(pCur);
-            }
+            pOrder->pItems = pOrder->pItems->pNext;
+            free(pCur);
+        }
+        else
+        {
+            for(pPre = pOrder->pItems; pPre->pNext != pCur; pPre = pPre->pNext)
+                ;
+            pPre->pNext = pCur->pNext;
+            free(pCur);
         }
     }
 }
@@ -146,7 +140,7 @@ float CalculateTotalPrice   (Order *pOrder)
     {
         for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
         {
-            fTotal += (pCur->iQuantity * pCur->pProduct->fPrice);
+            fTotal += (pCur->iQuantity * pCur->pItem->fPrice);
         }
     }
     return fTotal;
