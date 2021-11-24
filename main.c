@@ -59,9 +59,9 @@ void MainMenu(void)
     AddMenuItem   (&myMenu, "Triangle", 9);
     AddMenuItem   (&myMenu, "Circle",   43);
 
-    int i = DrawMenu(&myMenu);
+    int i = QueryMenu(&myMenu);
 
-    ConsoleClear();
+    ClearConsole();
 
     printf("\n\nMenu selection: %i\n", i);
 

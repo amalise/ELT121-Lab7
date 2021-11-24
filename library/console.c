@@ -33,7 +33,7 @@ void InitConsole(char *sWindowTitle)
 	CONSOLE_HEIGHT = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-void ConsoleClear(void)
+void ClearConsole(void)
 {
     system("cls");
 }
@@ -67,7 +67,7 @@ void SetColors(char *sFG, char *sBG)
 	printf("%s%s", sFG, sBG);
 }
 
-void ColorReset(void)
+void ResetColor(void)
 {
     printf("%s", COLOR_RESET);
 }

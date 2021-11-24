@@ -101,7 +101,7 @@ void AddMenuItemKey(Menu *pMenu, const char *sItem, const char *sKeys, const int
 	}
 }
 
-char DrawMenu     (Menu *pMenu)
+int QueryMenu    (Menu *pMenu)
 {
 	int       i;
 	char      c;
@@ -126,6 +126,7 @@ char DrawMenu     (Menu *pMenu)
                 printf("%*s%s\n", pMenu->iMargin, "", pMenu->sHeader);
             }
 		}
+		
 		for(pCur = pMenu->pItems, i = 1; pCur; pCur = pCur->pNext, i++)
         {
 		    printf("%*s", pMenu->iMargin + pMenu->iIndent, "");

@@ -25,7 +25,7 @@ Product *SelectProduct(void)
         AddMenuItem(&myMenu, pTmp->sName, i);
     }
 
-    i = DrawMenu(&myMenu);
+    i = QueryMenu(&myMenu);
 
     return GetProduct(i);
 }
@@ -78,12 +78,12 @@ void SalesMenu(void)
     // Take menu action
     do
     {
-        ConsoleClear();
+        ClearConsole();
 
         // Display Current Order
 //        DrawOrder(&myOrder);
 
-        iSaleSelection = DrawMenu(&mySalesMenu);
+        iSaleSelection = QueryMenu(&mySalesMenu);
         switch(iSaleSelection)
         {
         case 1:
