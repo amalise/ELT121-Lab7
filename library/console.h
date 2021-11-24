@@ -51,7 +51,7 @@
 void InitConsole(char *sWindowTitle);
 
 // Clear the screen
-void ConsoleClear(void);
+void ClearConsole(void);
 
 // Set Windows console to be ANSI compliant
 void FixWindows(void);
@@ -61,15 +61,10 @@ void SetColor(char *sFormat);
 void SetColors(char *sFG, char *sBG);
 
 // Reset text to default
-void ColorReset(void);
+void ResetColor(void);
 
 // Position text horizontally in the window
 void DrawCenteredText(char *sText);
 void DrawRightText(char *sText);
-
-/*
- * XXXX
- * Need to add functions for absolute text positioning
- */
 
 #endif // INC_CONSOLE_H

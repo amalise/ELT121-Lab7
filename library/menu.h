@@ -40,6 +40,6 @@ void SetMenuStyle  (Menu *pMenu, const int iStyle);
 void AddMenuItem   (Menu *pMenu, const char *sItem, const int iReturn);
 void AddMenuItemKey(Menu *pMenu, const char *sItem, const char *sKeys, const int iReturn);
 
-char DrawMenu      (Menu *pMenu);
+int  QueryMenu     (Menu *pMenu);
 
 # endif // INC_MENU_H
