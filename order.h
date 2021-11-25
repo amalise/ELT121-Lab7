@@ -19,6 +19,7 @@ struct s_Order
 };
 
 void  InitializeOrder    (Order *pOrder);
+void  DestroyOrder       (Order *pOrder);
 
 void  DrawOrder          (Order *pOrder);
 
@@ -27,7 +28,7 @@ void  RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty);
 void  ModifyItemQty      (Order *pOrder, SubProduct *pItem, int iQty);
 void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);
 
-void  ClearOrder         (Order *pOrder);
+SubProduct *QueryItemFromOrder(Order *pOrder);
 
 float CalculateTotalPrice(Order *pOrder);
 

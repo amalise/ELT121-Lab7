@@ -1,18 +1,11 @@
 ### To Compile
-- order.c
--- Debug changes to Product type
 
-- product.c
--- QueryProductByType()
--- QuerySubProduct()
 
 ### General
 - product.c
 -- DrawFullMenu()
 
-- Create blank order
-- Display current order
-- Tax Rate
+- Destroy functions!!!
 
 ### Perpetual
 - Keep **main.c** description up-to-date

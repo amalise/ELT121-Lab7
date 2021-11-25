@@ -2,6 +2,7 @@
 
 #include "library/settings.h"
 #include "library/console.h"
+#include "library/settings.h"
 
 #include "flags.h"
 #include "branding.h"
@@ -39,6 +40,13 @@ void DrawLogo(void)
 		printf("\n");
 	}
 	DrawCenteredText("------------------------------");
+
+	sprintf(buffer, "Restaurant Tax Rate: %.5f", GetSettingFloat("Restaurant Tax Rate"));
+	if(GetSettingFloat("Restaurant Tax Rate") > 0)
+        DrawCenteredText(buffer);
+	sprintf(buffer, "Sales Tax Rate: %.5f", GetSettingFloat("Sales Tax Rate"));
+	if(GetSettingFloat("Sales Tax Rate") > 0)
+        DrawCenteredText(buffer);
 	printf("\n\n");
 }
 

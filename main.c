@@ -26,7 +26,6 @@ int main(void)
     LoadSettings();
     if(CountSettings() == 0)
         SetDefaultSettings();
-//    LoadProducts();
 
     InitConsole(GetSetting("Company Name"));
 
@@ -42,30 +41,7 @@ void SetDefaultSettings(void)
 {
     AddSetting("Logo File",    "resource/logo.txt");
     AddSetting("Company Name", "Pretty Big Pickle Company");
+    AddSetting("Product File", "products.txt");
 
     SaveSettings();
-}
-
-/*
- * Display User Login
- *
- */
-void MainMenu(void)
-{
-    Menu myMenu;
-
-    InitializeMenu(&myMenu, "Main Menu\n---------", "Selection:", 25, 2, MENU_STYLE_NUMERIC);
-    AddMenuItem   (&myMenu, "Square",   8);
-    AddMenuItem   (&myMenu, "Triangle", 9);
-    AddMenuItem   (&myMenu, "Circle",   43);
-
-    int i = QueryMenu(&myMenu);
-
-    ClearConsole();
-
-    printf("\n\nMenu selection: %i\n", i);
-
-
-    // XXXX
-
 }

@@ -1,5 +1,6 @@
 LOGO FILE = resource/logo.txt
 COMPANY NAME = Pretty Big Pickle Company
-PI = 3.14159
-TEST = 2468
-FOO = x
+PRODUCT FILE = products.txt
+CURRENCY = $
+RESTAURANT TAX RATE = 0.0509
+SALES TAX RATE = 0.0635

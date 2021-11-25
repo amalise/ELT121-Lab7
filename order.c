@@ -1,5 +1,6 @@
 #include <stdlib.h>
 
+#include "library/menu.h"
 #include "product.h"
 #include "order.h"
 
@@ -25,9 +26,21 @@ OrderItem *FindOrderItem(Order *pOrder, SubProduct *pItem)
 
 void InitializeOrder       (Order *pOrder)
 {
-    if(pOrder)
+    if(!pOrder) return;
+
+    pOrder->pItems = NULL;
+}
+
+void DestroyOrder          (Order *pOrder)
+{
+    OrderItem *pTmp;
+
+    if(!pOrder) return;
+
+    for(pTmp = pOrder->pItems; pTmp; pTmp = pOrder->pItems)
     {
-        pOrder->pItems = NULL;
+        pOrder->pItems = pTmp->pNext;
+        free(pTmp);
     }
 }
 
@@ -39,23 +52,33 @@ void InitializeOrder       (Order *pOrder)
  */
 void DrawOrder(Order *pOrder)
 {
+    char       cCurrency = GetSettingChar("Currency");
+    char       buffer[50];
+    int        iItemCount = 0;
     OrderItem *pCur;
 
     if(!pOrder) return;
 
-    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "", "ITEM", "PRICE", "QTY", "EXT $");
-    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
-           "----------------------------------------", "-------", "---", "-------");
+    DrawCenteredText("-- Current Order --");
+    printf("\n");
+    printf("%*s%-35s  %-35s  %-7s  %-3s  %-5s%c\n", 10, "", "ITEM", "SIZE", "PRICE", "QTY", "EXT  ", cCurrency);
+    printf("%*s%-35s  %-35s  %-7s  %-3s  %-7s\n", 10, "",
+           "-----------------------------------", "-----------------------------------", "-------", "---", "-------");
     for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
-        printf("%*s%-50s  $%3.2f  %3d  $%3.2f\n", 20, "",
-               pCur->pItem->sName, pCur->pItem->fPrice, pCur->iQuantity,
-               (pCur->iQuantity * pCur->pItem->fPrice));
+        printf("%*s%-35s  %-35s  %c%6.2f  %3d  %c%6.2f\n",
+               10, "",
+               pCur->pItem->pParent->sName, pCur->pItem->sName,
+               cCurrency, pCur->pItem->fPrice,
+               pCur->iQty,
+               cCurrency, (pCur->iQty * pCur->pItem->fPrice));
+               iItemCount += pCur->iQty;
     }
-    printf("%*s%-50s  %-7s  %-3s  %-7s\n", 20, "",
-           "----------------------------------------", "-------", "---", "-------");
-    printf("%*s%50s  %-7s  %-3s  $%3.2f\n", 20, "", "TOTAL", "", "",
-           CalculateTotalPrice(pOrder));
+    printf("%*s%-35s  %-35s  %-7s  %-3s  %-7s\n", 10, "",
+           "-----------------------------------", "-----------------------------------", "-------", "---", "-------");
+    printf("%*s%35s  %35s  %-7s  %3d  %c%6.2f\n",
+           10, "", "", "TOTAL", "", iItemCount, cCurrency, CalculateTotalPrice(pOrder));
+    printf("\n");
 }
 
 void AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty)
@@ -117,32 +140,46 @@ void DeleteItemFromOrder(Order *pOrder, SubProduct *pItem)
     }
 }
 
-void ClearOrder            (Order *pOrder)
+SubProduct *QueryItemFromOrder(Order *pOrder)
 {
-    OrderItem *pTmp;
+    Menu       myMenu;
+    OrderItem *pCur;
+    char       buffer[100];
+    char       c, cSelection;
 
-    if(pOrder)
+    if(!pOrder) return;
+
+    printf("\n");
+    InitializeMenu(&myMenu, "Current Items in the Order", "Choose an item:", 40, 4, MENU_STYLE_ALPHA);
+
+    for(c = 'a', pCur = pOrder->pItems; pCur; c++, pCur = pCur->pNext)
     {
-        for(pTmp = pOrder->pItems; pTmp; pTmp = pOrder->pItems)
-        {
-            pOrder->pItems = pTmp->pNext;
-            free(pTmp);
-        }
+        sprintf(buffer, "%.45s (%.45s)", pCur->pItem->pParent->sName, pCur->pItem->sName);
+        AddMenuItem(&myMenu, buffer, c);
     }
+
+    cSelection = QueryMenu(&myMenu);
+
+    for(c = 'a', pCur = pOrder->pItems; c < cSelection; c++, pCur = pCur->pNext)
+        ;
+
+    DestroyMenu(&myMenu);
+
+    return pCur->pItem;
 }
 
 float CalculateTotalPrice   (Order *pOrder)
 {
-    float fTotal = 0.0;
+    float      fTotal = 0.0;
     OrderItem *pCur;
 
-    if(pOrder)
+    if(!pOrder) return 0.0;
+
+    for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
-        for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
-        {
-            fTotal += (pCur->iQty * pCur->pItem->fPrice);
-        }
+        fTotal += (pCur->iQty * pCur->pItem->fPrice);
     }
+
     return fTotal;
 }
 
