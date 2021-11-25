@@ -11,42 +11,24 @@
 
 #define MENU_MARGIN 50
 
-Product *SelectProduct(void)
+int GetQuantity(SubProduct *pItem)
 {
-    int i;
-    Menu myMenu;
-    Product *pTmp;
+    int qty = 0;
 
-    InitializeMenu(&myMenu, "", "Please select an item:", MENU_MARGIN, 0, MENU_STYLE_NUMERIC);
+    char buffer[100];
+    sprintf(buffer, "%.45s (%.45s)", pItem->pParent->sName, pItem->sName);
 
-    for(i = 0; i < GetProductCount(); i++)
-    {
-        pTmp = GetProduct(i);
-        AddMenuItem(&myMenu, pTmp->sName, i);
-    }
-
-    i = QueryMenu(&myMenu);
-
-    return GetProduct(i);
-}
-
-int GetQuantity(Product *pProduct)
-{
-    int qty;
-
-    printf("\n%*sHow many %s do you want? ", MENU_MARGIN, "", pProduct->sName);
-    fflush(stdin);
-    sscanf("%i", &qty);
+    printf("\n%*sHow many %s do you want? ", MENU_MARGIN, "", buffer);
     while(qty < 1)
     {
+        fflush(stdin);
+        scanf("%i", &qty);
         if(qty < 1)
         {
             printf("\n%*s%sYou need to order non-imaginary food.%s\n%*sPlease enter a positive quantity: ",
                    MENU_MARGIN, "", FG_B_RED, COLOR_RESET,
                    MENU_MARGIN, "");
         }
-        fflush(stdin);
-        sscanf("%i", &qty);
     }
 
     return qty;
@@ -54,15 +36,22 @@ int GetQuantity(Product *pProduct)
 
 void SalesMenu(void)
 {
-    Order    myOrder;
-    Product *pProduct;
-    int      iQuantity;
+    Order        myOrder;
+    ProductList  myProductList;
 
-    Menu     mySalesMenu;
-    int      iSaleSelection;
+    ProductType  eProductType;
+    Product     *pProduct;
+    SubProduct  *pItem;
+    int          iQty;
+
+    Menu         mySalesMenu;
 
     // Create blank order
     InitializeOrder(&myOrder);
+
+    // Initialize Product Database
+    InitializeProductList(&myProductList);
+    LoadProducts(&myProductList, GetSetting("Product File"));
 
     // Draw sales menu
     InitializeMenu(&mySalesMenu,
@@ -81,24 +70,38 @@ void SalesMenu(void)
         ClearConsole();
 
         // Display Current Order
-//        DrawOrder(&myOrder);
+        DrawOrder(&myOrder);
 
-        iSaleSelection = QueryMenu(&mySalesMenu);
-        switch(iSaleSelection)
+        switch(QueryMenu(&mySalesMenu))
         {
         case 1:
-            pProduct  = SelectProduct();
-            iQuantity = GetQuantity(pProduct);
-            AddProductToOrder(&myOrder, pProduct, iQuantity);
+            DrawFullMenu(&myProductList);
+            eProductType = QueryProductType();
+            pProduct     = QueryProductByType(&myProductList, eProductType);
+            pItem        = QuerySubProduct(pProduct);
+            iQty         = GetQuantity(pItem);
+            AddItemToOrder(&myOrder, pItem, iQty);
             break;
         case 2:
+            DeleteItemFromOrder(&myOrder, QueryItemFromOrder(&myOrder));
             break;
         case 3:
+            DestroyOrder(&myOrder);
+            InitializeOrder(&myOrder);
             break;
         case 4:
+//            PayForOrder(&myOrder);
+//            RecordOrder(&myOrder);
+            DestroyOrder(&myOrder);
+            InitializeOrder(&myOrder);
             break;
         case 9:
+            return;
             break;
         }
-    }while(iSaleSelection != 9);
+    }while(1);
+
+    DestroyOrder      (&myOrder);
+    DestroyProductList(&myProductList);
+    DestroyMyMenu     (&mySalesMenu);
 }

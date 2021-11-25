@@ -32,6 +32,7 @@ void InitializeMenu(Menu *pMenu,
                     const int   iMargin,
                     const int   iIndent,
                     const int   iStyle);
+void DestroyMyMenu (Menu *pMenu);
 
 void SetMenuHeader (Menu *pMenu, const char *sHeader);
 void SetMenuPrompt (Menu *pMenu, const char *sPrompt);

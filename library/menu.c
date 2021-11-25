@@ -28,6 +28,11 @@ void InitializeMenu(Menu *pMenu,
     }
 }
 
+void DestroyMyMenu (Menu *pMenu)
+{
+
+}
+
 void SetMenuHeader(Menu *pMenu, const char *sHeader)
 {
 	if(pMenu)
@@ -126,7 +131,7 @@ int QueryMenu    (Menu *pMenu)
                 printf("%*s%s\n", pMenu->iMargin, "", pMenu->sHeader);
             }
 		}
-		
+
 		for(pCur = pMenu->pItems, i = 1; pCur; pCur = pCur->pNext, i++)
         {
 		    printf("%*s", pMenu->iMargin + pMenu->iIndent, "");
@@ -135,7 +140,7 @@ int QueryMenu    (Menu *pMenu)
             case MENU_STYLE_NONE:
                 break;
             case MENU_STYLE_ALPHA:
-                printf("%c)  ", 'A' + i);
+                printf("%c)  ", 'A' + i - 1);
                 break;
             case MENU_STYLE_NUMERIC:
             default:
