@@ -3,13 +3,12 @@
 #include <string.h>
 
 #include "flags.h"
-#include "category.h"
 #include "product.h"
 
 #include "library/libstr.h"
 #include "library/menu.h"
 
-#define SINGLE_MARGIN 50;
+#define SINGLE_MARGIN 50
 
 /*
  * Prep a ProductList for use
@@ -148,13 +147,12 @@ void DrawMenu        (ProductList *pProductList, ProductType eType)
 		printf("%*s%-50s  %-7s\n", SINGLE_MARGIN, "", "COUPONS", "VALUE");
 		pCurP = pProductList->pCoupons;
 		break;
-	default:
 	}
-	printf("%*s%-50s  %-7s\n", SINGLE_MARGIN, "", "--------------------", "-------")
+	printf("%*s%-50s  %-7s\n", SINGLE_MARGIN, "", "--------------------", "-------");
 	for( ; pCurP; pCurP = pCurP->pNext)
 	{
 		printf("%*s%-50s\n", SINGLE_MARGIN, "", pCurP->sName);
-		for(pCurV = pCurP->pVariants; pCurV; pCurV = pCurV->pNext)
+		for(pCurV = pCurP->pSubProducts; pCurV; pCurV = pCurV->pNext)
 		{
 			printf("%*s    %-46s  $3.2f\n", SINGLE_MARGIN, "", pCurV->sName, pCurV->fPrice);
 		}
@@ -205,7 +203,7 @@ ProductType     QueryProductType   (void)
 
 	InitializeMenu(&myMenu, "", "Choose a product category:", 50, 4, MENU_STYLE_NUMERIC);
 	AddMenuItem(&myMenu, "Sandwich", SANDWICH);
-	AddMenuItem(&myMenu, "Side"    , SIDE);
+	AddMenuItem(&myMenu, "Side",     SIDE);
 	AddMenuItem(&myMenu, "Beverage", BEVERAGE);
 
 	return QueryMenu(&myMenu);
@@ -213,16 +211,61 @@ ProductType     QueryProductType   (void)
 
 Product        *QueryProductByType (ProductList *pProductList, ProductType eType)
 {
+    int iSelection, i;
+    Product *pRoot, *pCur;
+    Menu myMenu;
+    char *sTitle;
+
 	if(!pProductList) return;
 
-	// XXXX
+    switch(eType)
+    {
+    case SANDWICH:
+        pRoot = pProductList->pSandwiches;
+        sTitle = "Sandwiches";
+        break;
+    case SIDE:
+        pRoot = pProductList->pSides;
+        sTitle = "Sides";
+        break;
+    case BEVERAGE:
+        pRoot = pProductList->pBeverages;
+        sTitle = "Beverages";
+        break;
+    case COUPON:
+        pRoot = pProductList->pCoupons;
+        sTitle = "Coupons";
+        break;
+    }
+
+    InitializeMenu(&myMenu, sTitle, "Which would you like?", 50, 4, MENU_STYLE_NUMERIC);
+    for(i = 0, pCur = pRoot; pCur; i++, pCur = pCur->pNext)
+        AddMenuItem(&myMenu, pCur->sName, i);
+
+    iSelection = QueryMenu(&myMenu);
+    for(i = 0, pCur = pRoot; i < iSelection; i++, pCur = pCur->pNext)
+        ;
+
+    return pCur;
 }
 
 SubProduct *QuerySubProduct(Product *pProduct)
 {
-	if(!pProductList) return;
+    int i;
+    SubProduct *pCur;
+    Menu myMenu;
 
-	// XXXX
+	if(!pProduct) return NULL;
+
+	InitializeMenu(&myMenu, pProduct->sName, "Which size would you like?", 50, 4, MENU_STYLE_NUMERIC);
+	for(i = 0, pCur = pProduct->pSubProducts; pCur; i++, pCur = pCur->pNext)
+        AddMenuItem(&myMenu, pCur->sName, i);
+
+    i = QueryMenu(&myMenu);
+    for(pCur = pProduct->pSubProducts; i > 0; i--, pCur = pCur->pNext)
+        ;
+
+    return pCur;
 }
 
 /*
@@ -238,29 +281,29 @@ int GetProductCount   (ProductList *pProductList)
 int GetProductTypeCount(ProductList *pProductList, ProductType eType)
 {
 	int iCount = 0;
-	Product *pTmp;
+	Product *pCur;
 
 	if(!pProductList) return;
 
 	switch(eType)
 	{
 	case SANDWICH:
-		pTmp = pProductList->pSandwiches;
+		pCur = pProductList->pSandwiches;
 		break;
 	case SIDE:
-		pTmp = pProductList->pSides;
+		pCur = pProductList->pSides;
 		break;
 	case BEVERAGE:
-		pTmp = pProductList->pBeverages;
+		pCur = pProductList->pBeverages;
 		break;
 	case COUPON:
-		pTmp = pProductList->pCoupons;
+		pCur = pProductList->pCoupons;
 		break;
 	default:
 		return 0;
 	}
 
-	for( ; pTmp; pTmp = pTmp->pNext)
+	for( ; pCur; pCur = pCur->pNext)
 		iCount++;
 
 	return iCount;
@@ -286,12 +329,17 @@ int GetCouponCount    (ProductList *pProductList)
 	return GetProductTypeCount(pProductList, COUPON);
 }
 
-int GetSubProductCount(ProductList *pProductList)
+int GetSubProductCount(Product *pProduct)
 {
     int iCount = 0;
-    SubProduct *pTmp;
+    SubProduct *pCur;
 
-	return GetProductTypeCount(pProductList, COUPON);
+    if(!pProduct) return 0;
+
+    for(pCur = pProduct->pSubProducts; pCur; pCur = pCur->pNext)
+        iCount++;
+
+    return iCount;
 }
 
 /*
@@ -299,14 +347,14 @@ int GetSubProductCount(ProductList *pProductList)
  */
 void FreeProduct(Product *pProduct)
 {
-	pSubProducts *pRip;
+	SubProduct *pRip;
 
 	if(!pProduct) return;
 
 	while(pProduct->pSubProducts)
 	{
-		pRip = pProduct->pSubProduct;
-		pProduct->pSubProduct = pProduct->pSubProduct->pNext;
+		pRip = pProduct->pSubProducts;
+		pProduct->pSubProducts = pProduct->pSubProducts->pNext;
 		free(pRip->sName);
 		free(pRip);
 	}
@@ -320,7 +368,7 @@ Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eTyp
 {
 	Product *pCur;
 
-	if(!pProductList) return;
+	if(!pProductList) return NULL;
 
 	if(pCur = FindProduct(pProductList, sName))
 	{
@@ -388,7 +436,7 @@ Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eTyp
 		}
 		break;
 	default:
-		return 0;
+		return NULL;
 	}
 	pCur->sName = malloc(strlen(sName) + 1);
 	strcpy(pCur->sName, sName);
@@ -396,6 +444,8 @@ Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eTyp
 	pCur->pSubProducts = NULL;
 	pCur->pNext        = NULL;
 	pCur->pParent      = pProductList;
+
+	return pCur;
 }
 
 void     AddSubProduct(Product *pProduct, char *sName, float fPrice)
@@ -410,14 +460,14 @@ void     AddSubProduct(Product *pProduct, char *sName, float fPrice)
 		return;
 	}
 
-	if(!pProduct->pVariants)
+	if(!pProduct->pSubProducts)
 	{
-		pProduct->pVariants = malloc(sizeof(SubProduct));
-		pCur = pCur->pVariants;
+		pProduct->pSubProducts = malloc(sizeof(SubProduct));
+		pCur = pProduct->pSubProducts;
 	}
 	else
 	{
-		for(pCur = pProduct->pVariants; pCur->pNext; pCur = pCur->pNext)
+		for(pCur = pProduct->pSubProducts; pCur->pNext; pCur = pCur->pNext)
 			;
 		pCur->pNext = malloc(sizeof(SubProduct));
 		pCur = pCur->pNext;
@@ -542,7 +592,7 @@ void     ChangeProductType(Product *pProduct, ProductType eType)
 
 	pNewProduct = AddProduct(pProduct->pParent, "AAAAAABBBBBBCCCCCCDDDDDDEEEEEE", eType);
 	ChangeProductName(pNewProduct, pProduct->sName);
-	for(pCurVariant = pProduct->pVariants; pCurVariant; pCurVariant = pCurVariant->pNext)
+	for(pCurVariant = pProduct->pSubProducts; pCurVariant; pCurVariant = pCurVariant->pNext)
 	{
 		AddSubProduct(pNewProduct, pCurVariant->sName, pCurVariant->fPrice);
 	}
@@ -556,9 +606,9 @@ SubProduct *FindSubProduct       (Product *pProduct, char *sName)
 {
 	SubProduct *pCur;
 
-	if(!pProduct) return;
+	if(!pProduct) return NULL;
 
-	for(pCur = pProduct->pVariants; pCur; pCur = pCur->pNext)
+	for(pCur = pProduct->pSubProducts; pCur; pCur = pCur->pNext)
 	{
 		if(strcmp(sName, pCur->sName) == 0)
 			return pCur;

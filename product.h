@@ -63,10 +63,10 @@ void DrawCouponMenu  (ProductList *pProductList);
 /*
  * Main functions for interacting with program
  */
-void         DrawFullMenu    (ProductList *pProductList); // DOES NOT DISPLAY COUPONS
-ProductType  QueryProductType(void);
-Product     *QueryProduct    (ProductList *pProductList, ProductType eType);
-SubProduct  *QuerySubProduct (Product *pProduct);
+void         DrawFullMenu      (ProductList *pProductList); // DOES NOT DISPLAY COUPONS
+ProductType  QueryProductType  (void);
+Product     *QueryProductByType(ProductList *pProductList, ProductType eType);
+SubProduct  *QuerySubProduct   (Product *pProduct);
 
 /*
  * Get counts
@@ -96,7 +96,7 @@ void     ChangeProductType(Product *pProduct, ProductType eType);
  * Work with SubProducts
  */
 SubProduct *FindSubProduct       (Product *pProduct, char *sName);
-void        RemoveSubProduct     (SubProduct *pProduct, char *sName);
+void        RemoveSubProduct     (SubProduct *pSubProduct);
 void        ChangeSubProductName (SubProduct *pSubProduct, char *sName);
 void        ChangeSubProductPrice(SubProduct *pSubProduct, float fPrice);
 
