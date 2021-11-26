@@ -6,6 +6,7 @@
 
 #include "flags.h"
 #include "branding.h"
+#include "sales.h"
 
 #define BUFFER_LENGTH 255
 
@@ -53,6 +54,7 @@ void DrawLogo(void)
 void DrawCopyright(void)
 {
 	printf("\n\n");
+	DrawSalesTotals();
 	DrawCenteredText("------------------------------");
 	printf("\n");
 	DrawCenteredText("COPYRIGHT");

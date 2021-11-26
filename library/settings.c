@@ -146,6 +146,13 @@ void PopulateSetting(const Setting *pSetting)
 	sscanf(pSetting->sValue, "%lf", &(pSetting->dValue));
 }
 
+int  IsSetting(const char *sName)
+{
+    if(FindSetting(sName))
+        return 1;
+    return 0;
+}
+
 /*
  * Get a setting
  */
@@ -191,14 +198,14 @@ const double  GetSettingFloat (const char *sName)
  */
 void AddSetting      (const char *sName, const char   *sValue)
 {
-	SettingNode *pNode;
-	char *sNeedle = malloc(strlen(sName) + 1);
-
 	if(FindSettingNode(sName))
 	{
 		ChangeSetting(sName, sValue);
 		return;
 	}
+
+	SettingNode *pNode;
+	char *sNeedle = malloc(strlen(sName) + 1);
 
 	strcpy(sNeedle, sName);
 	StringTrim(sNeedle);

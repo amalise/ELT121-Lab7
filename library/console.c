@@ -90,3 +90,39 @@ void DrawRightText(char *sText)
     else
         printf("%*s%s\n", (CONSOLE_WIDTH - strlen(sText)), "", sText);
 }
+
+// User interractions
+int   QueryInt  (char *sPrompt)
+{
+    int i;
+
+    printf("%s ", sPrompt);
+    fflush(stdin);
+    scanf("%d", &i);
+    return i;
+}
+
+float QueryFloat(char *sPrompt)
+{
+    float f;
+
+    printf("%s ", sPrompt);
+    fflush(stdin);
+    scanf("%f", &f);
+    return f;
+}
+
+char  QueryYesNo(char *sPrompt)
+{
+    int c;
+
+    printf("%s ", sPrompt);
+    fflush(stdin);
+    do
+    {
+        c = getch();
+        c = tolower(c);
+    }while((c != 'y') && (c != 'n'));
+
+    return c;
+}

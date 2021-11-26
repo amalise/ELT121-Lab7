@@ -99,6 +99,9 @@ void LoadProducts(ProductList *pProductList, char *sFileName)
 		AddSubProduct(pTmp, "Small",  1.09);
 		AddSubProduct(pTmp, "Medium", 1.39);
 		AddSubProduct(pTmp, "Large",  1.69);
+
+//		pTmp = AddProduct(pProductList, "First Visit", COUPON);
+//		AddSubProduct(pTmp, "First Visit Discount", 0.05);
 	}
 }
 

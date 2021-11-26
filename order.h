@@ -16,12 +16,17 @@ struct s_OrderItem
 struct s_Order
 {
     OrderItem *pItems;
+    char      *sAdjustmentLabel;
+    char      *sOverrideLabel;
+    float      fAdjustment;
+    float      fOverride;
 };
 
 void  InitializeOrder    (Order *pOrder);
 void  DestroyOrder       (Order *pOrder);
 
 void  DrawOrder          (Order *pOrder);
+void  DrawTotals         (Order *pOrder);
 
 void  AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty);
 void  RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty);
@@ -30,6 +35,11 @@ void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);
 
 SubProduct *QueryItemFromOrder(Order *pOrder);
 
-float CalculateTotalPrice(Order *pOrder);
+float CalculateSubTotal(Order *pOrder);
+float CalculateAdjustedSubTotal(Order *pOrder);
+float CalculateTax(Order *pOrder);
+float CalculateTotal(Order *pOrder);
+
+void RecordOrder(Order *pOrder);
 
 #endif // INC_ORDER_H

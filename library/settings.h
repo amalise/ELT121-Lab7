@@ -25,6 +25,8 @@ int  CountSettings(void);
 void LoadSettings(void);
 void SaveSettings(void);
 
+int  IsSetting(const char *sName);
+
 // Get a setting
 const char   *GetSetting      (const char *sName); // char blob by default
 const char   *GetSettingString(const char *sName);

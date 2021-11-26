@@ -6,6 +6,7 @@
 -- DrawFullMenu()
 
 - Destroy functions!!!
+- Check for unbalanced mallocs()
 
 ### Perpetual
 - Keep **main.c** description up-to-date

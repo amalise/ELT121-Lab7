@@ -67,4 +67,9 @@ void ResetColor(void);
 void DrawCenteredText(char *sText);
 void DrawRightText(char *sText);
 
+// User interractions
+int   QueryInt  (char *sPrompt);
+float QueryFloat(char *sPrompt);
+char  QueryYesNo(char *sPrompt);
+
 #endif // INC_CONSOLE_H

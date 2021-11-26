@@ -9,7 +9,7 @@
 #include "branding.h"
 #include "product.h"
 
-void SetDefaultSettings(void);
+void ValidateSettings(void);
 void MainMenu(void);
 
 /*
@@ -23,25 +23,85 @@ void MainMenu(void);
  */
 int main(void)
 {
+    ResetSalesTotals();
+
     LoadSettings();
-    if(CountSettings() == 0)
-        SetDefaultSettings();
+    ValidateSettings();
 
     InitConsole(GetSetting("Company Name"));
 
     UserMenu();
-//    MainMenu();
 
     DrawCopyright();
 
     return 0;
 }
 
-void SetDefaultSettings(void)
+void ValidateSettings(void)
 {
-    AddSetting("Logo File",    "resource/logo.txt");
-    AddSetting("Company Name", "Pretty Big Pickle Company");
-    AddSetting("Product File", "products.txt");
+    int iChanges = 0;
+    if(!IsSetting("Logo File"))
+    {
+        AddSetting("Logo File",    "resource/logo.txt");
+        iChanges++;
+    }
 
-    SaveSettings();
+    if(!IsSetting("Company Name"))
+    {
+        AddSetting("Company Name", "Pretty Big Pickle Company");
+        iChanges++;
+    }
+
+    if(!IsSetting("Product File"))
+    {
+        AddSetting("Product File", "products.txt");
+        iChanges++;
+    }
+
+    if(!IsSetting("Currency"))
+    {
+        AddSettingChar("Currency",'$');
+        iChanges++;
+    }
+
+    if(!IsSetting("Restaurant Tax Rate"))
+    {
+        AddSettingFloat("Restaurant Tax Rate", 0.0509);
+        iChanges++;
+    }
+
+    if(!IsSetting("Sales Tax Rate"))
+    {
+        AddSettingFloat("Sales Tax Rate", 0.0635);
+        iChanges++;
+    }
+
+    if(!IsSetting("Employee Discount"))
+    {
+        AddSettingFloat("Employee Discount", 0.05);
+        iChanges++;
+    }
+
+    if(!IsSetting("Military Discount"))
+    {
+        AddSettingFloat("Military Discount", 0.10);
+        iChanges++;
+    }
+
+    if(!IsSetting("Loyalty Discount"))
+    {
+        AddSettingFloat("Loyalty Discount", 0.10);
+        iChanges++;
+    }
+
+    if(!IsSetting("Extra Handling"))
+    {
+        AddSettingFloat("Extra Handling", -0.20);
+        iChanges++;
+    }
+
+    if(iChanges)
+    {
+        SaveSettings();
+    }
 }

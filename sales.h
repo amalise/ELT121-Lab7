@@ -3,4 +3,9 @@
 
 void SalesMenu(void);
 
+void ResetSalesTotals(void);
+void DrawSalesTotals(void);
+
+void AddToSalesTotals(float fSale, float fTax);
+
 #endif // INC_SALES_H

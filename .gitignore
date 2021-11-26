@@ -2,6 +2,7 @@
 *.cbp
 *.layout
 *.depend
+*.log
 
 # Prerequisites
 *.d
