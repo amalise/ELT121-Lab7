@@ -146,7 +146,7 @@ void PopulateSetting(const Setting *pSetting)
 	sscanf(pSetting->sValue, "%lf", &(pSetting->dValue));
 }
 
-int  IsSetting(const char *sName)
+int  IsSetting(const char *sName)//-----------------------Returns pointer called sName
 {
     if(FindSetting(sName))
         return 1;

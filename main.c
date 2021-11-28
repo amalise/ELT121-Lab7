@@ -23,30 +23,29 @@ void MainMenu(void);
  */
 int main(void)
 {
-    ResetSalesTotals();
+    ResetSalesTotals(); //--------------------Declaration->sales.h(6)/Implementation->sales.c(178)
 
-    LoadSettings();
-    ValidateSettings();
+    LoadSettings();     //--------------------Declaration->library\settings.h(line 25)/Implementation->library\settings.c(49)
+    ValidateSettings(); //--------------------Declaration->main.c(12)/Implementation->main.c(39)
+    InitConsole(GetSetting("Company Name"));//Declaration->library\console.h(51)/Implementation->library\console.c(17)
 
-    InitConsole(GetSetting("Company Name"));
+    UserMenu();         //--------------------Declaration->user.h(4)/Implementation->user.c(10)
 
-    UserMenu();
-
-    DrawCopyright();
+    DrawCopyright();    //--------------------Declaration->branding.h(6)/Implementation->branding.c(54)
 
     return 0;
 }
 
-void ValidateSettings(void)
+void ValidateSettings(void)     //--------------------------Filing system for settings(39-106)
 {
-    int iChanges = 0;
-    if(!IsSetting("Logo File"))
+    int iChanges = 0;           //--------------------------Sets iChanges to 0
+    if(!IsSetting("Logo File")) //--------------------------Declaration->library\settings.h(28)/Implementation->library\settings.c(149)
     {
-        AddSetting("Logo File",    "resource/logo.txt");
-        iChanges++;
+        AddSetting("Logo File",    "resource/logo.txt");//--Declaration->library\settings.h(38)/Implementation->library\settings.c(199)
+        iChanges++;             //--------------------------Adds setting to logo.txt
     }
 
-    if(!IsSetting("Company Name"))
+    if(!IsSetting("Company Name"))//------------------------Checks if company name is setting
     {
         AddSetting("Company Name", "Pretty Big Pickle Company");
         iChanges++;
