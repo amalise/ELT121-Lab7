@@ -60,6 +60,7 @@ void ValidateSettings(void)//Checks to see if setting exists and adds setting if
     {
         AddSettingChar("Currency",'$');//Adds setting if not found
         iChanges++;//Saves changes
+    }
 
     if(!IsSetting("Restaurant Tax Rate"))//Checks for Restaurant Tax Rate in setting(settings.h)
     {
