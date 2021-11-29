@@ -10,13 +10,14 @@
 
 #define BUFFER_LENGTH 255
 
+/*This series of functions are supported by the .h files and draw the logo of the program*/
 void DrawLogo(void)
 {
 	FILE *pFile;
 	char buffer[BUFFER_LENGTH];
 
 #if FEAT_CUSTOM_LOGO == 1
-	pFile = fopen(GetSetting("Logo File"), "r");
+	pFile = fopen(GetSetting("Logo File"), "r");//locates setting for the logo and applies it to the display
 #else
 	pFile = NULL;
 #endif
