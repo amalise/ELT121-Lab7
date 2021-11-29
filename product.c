@@ -113,18 +113,24 @@ void LoadProducts(ProductList *pProductList, char *sFileName)
 		AddSubProduct(pTmp, "Medium", 2.49);
 		AddSubProduct(pTmp, "Large",  2.89);
 
-/* adds product of type SIDE named "Sweet Potato Fries"
-    and subproduct(size) to type SIDE */
+/* adds product of type BEVERAGE named "Vanilla Milkshake"
+    and subproduct(size) to type BEVERAGE */
 
 		pTmp = AddProduct(pProductList, "Vanilla Milkshake", BEVERAGE);
 		AddSubProduct(pTmp, "Small",  3.19);
 		AddSubProduct(pTmp, "Medium", 3.89);
 		AddSubProduct(pTmp, "Large",  4.59);
 
+/* adds product of type BEVERAGE named "Chocolate Milkshake"
+    and subproduct(size) to type BEVERAGE */
+
 		pTmp = AddProduct(pProductList, "Chocolate Milkshake", BEVERAGE);
 		AddSubProduct(pTmp, "Small",  3.19);
 		AddSubProduct(pTmp, "Medium", 3.89);
 		AddSubProduct(pTmp, "Large",  4.59);
+
+/* adds product of type BEVERAGE named "Coffee"
+    and subproduct(size) to type BEVERAGE */
 
 		pTmp = AddProduct(pProductList, "Coffee", BEVERAGE);
 		AddSubProduct(pTmp, "Small",  1.09);
@@ -135,6 +141,8 @@ void LoadProducts(ProductList *pProductList, char *sFileName)
 //		AddSubProduct(pTmp, "First Visit Discount", 0.05);
 	}
 }
+
+/* future menu customization features */
 
 void SaveProducts(ProductList *pProductList, char *sFileName)
 {
@@ -156,10 +164,12 @@ void SortProducts(ProductList *pProductList)
 /*
  * Basic menu printing functions
  */
-void DrawMenu        (ProductList *pProductList, ProductType eType)
+void DrawMenu        (ProductList *pProductList, ProductType eType) //Takes values and displays on screen
 {
 	Product        *pCurP;
 	SubProduct *pCurV;
+
+/* Displays menu's and submenu's */
 
 	if(!pProductList) return;
 
@@ -193,12 +203,16 @@ void DrawMenu        (ProductList *pProductList, ProductType eType)
 	}
 }
 
+/* Displays sandwich menu */
+
 void DrawSandwichMenu(ProductList *pProductList)
 {
 	if(!pProductList) return;
 
 	DrawMenu(pProductList, SANDWICH);
 }
+
+/* Displays side menu */
 
 void DrawSideMenu    (ProductList *pProductList)
 {
@@ -207,12 +221,16 @@ void DrawSideMenu    (ProductList *pProductList)
 	DrawMenu(pProductList, SIDE);
 }
 
+/* Displays beverage menu */
+
 void DrawBeverageMenu(ProductList *pProductList)
 {
 	if(!pProductList) return;
 
 	DrawMenu(pProductList, BEVERAGE);
 }
+
+/* Displays coupon menu */
 
 void DrawCouponMenu  (ProductList *pProductList)
 {
@@ -222,7 +240,7 @@ void DrawCouponMenu  (ProductList *pProductList)
 }
 
 /*
- * Main functions for interracting with program
+ * Main functions for user interface
  */
 void DrawFullMenu    (ProductList *pProductList)
 {
@@ -242,6 +260,8 @@ ProductType     QueryProductType   (void)
 
 	return QueryMenu(&myMenu);
 }
+
+/* streamline product searches by type */
 
 Product        *QueryProductByType (ProductList *pProductList, ProductType eType)
 {
@@ -280,8 +300,10 @@ Product        *QueryProductByType (ProductList *pProductList, ProductType eType
     for(i = 0, pCur = pRoot; i < iSelection; i++, pCur = pCur->pNext)
         ;
 
-    return pCur;
+    return pCur;//MemoryGuard Certified
 }
+
+/* streamline subproduct searches by type */
 
 SubProduct *QuerySubProduct(Product *pProduct)
 {
@@ -399,12 +421,15 @@ void FreeProduct(Product *pProduct)
  * Add Data
  */
 Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eType)
+
+/*checks if a product list exists at that location
+Searches for product in list and adds if missing */
 {
 	Product *pCur;
 
-	if(!pProductList) return NULL;
+	if(!pProductList) return NULL; // checks if a product list exists at that location
 
-	if(pCur = FindProduct(pProductList, sName))
+	if(pCur = FindProduct(pProductList, sName)) //
 	{
 		if(pCur->eType != eType)
 			ChangeProductType(pCur, eType);
@@ -482,6 +507,9 @@ Product *AddProduct    (ProductList *pProductList, char *sName, ProductType eTyp
 	return pCur;
 }
 
+/*checks if a subproduct list exists at that location
+Searches for product in list and adds if missing */
+
 void     AddSubProduct(Product *pProduct, char *sName, float fPrice)
 {
 	SubProduct *pCur;
@@ -513,9 +541,9 @@ void     AddSubProduct(Product *pProduct, char *sName, float fPrice)
 	pCur->pParent = pProduct;
 }
 
-/*
- * Modify Products
- */
+/* Product modification via linked lists */
+
+
 Product *FindProduct      (ProductList *pProductList, char *sName)
 {
 	Product *pCur;
@@ -633,9 +661,8 @@ void     ChangeProductType(Product *pProduct, ProductType eType)
 	RemoveProduct(pProduct);
 }
 
-/*
- * Modify SubProduct
- */
+/* subproduct modification via linked lists */
+
 SubProduct *FindSubProduct       (Product *pProduct, char *sName)
 {
 	SubProduct *pCur;
