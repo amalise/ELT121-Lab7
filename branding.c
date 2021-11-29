@@ -13,7 +13,7 @@
 /*This series of functions are supported by the .h files and draw the logo of the program*/
 void DrawLogo(void)
 {
-	FILE *pFile;
+	FILE *pFile;//opens file name with assigned pointer
 	char buffer[BUFFER_LENGTH];
 
 #if FEAT_CUSTOM_LOGO == 1
@@ -23,15 +23,16 @@ void DrawLogo(void)
 #endif
 	if(pFile)
 	{
-		while(fgets(buffer, BUFFER_LENGTH, pFile))
+		while(fgets(buffer, BUFFER_LENGTH, pFile))//while loop that prints and stores the string
 		{
-			printf("%s", buffer);
+			printf("%s", buffer);//prints buffered string
 		}
-		fclose(pFile);
+		fclose(pFile);//closes the file
 		printf("\n");
 	}
 	else
 	{
+/*Dra*/
 		DrawCenteredText("Welcome to the");
 #if FEAT_CUSTOM_BRAND == 1
 		DrawCenteredText(GetSetting("Company Name"));
@@ -47,24 +48,24 @@ void DrawLogo(void)
 	if(GetSettingFloat("Restaurant Tax Rate") > 0)
         DrawCenteredText(buffer);
 	sprintf(buffer, "Sales Tax Rate: %.5f", GetSettingFloat("Sales Tax Rate"));
-	if(GetSettingFloat("Sales Tax Rate") > 0)
-        DrawCenteredText(buffer);
+	if(GetSettingFloat("Sales Tax Rate") > 0)//checks to see if the sales tax rate is greater than 0
+        DrawCenteredText(buffer);//centers displayed string stored in the buffer
 	printf("\n\n");
 }
 
-void DrawCopyright(void)
+void DrawCopyright(void)//Draws the footer
 {
 	printf("\n\n");
-	DrawSalesTotals();
-	DrawCenteredText("------------------------------");
+	DrawSalesTotals();//Displays total sales(sales.h)
+	DrawCenteredText("------------------------------");//Centers text on display(console.h)
 	printf("\n");
-	DrawCenteredText("COPYRIGHT");
-	DrawCenteredText("15 November 2021");
+	DrawCenteredText("COPYRIGHT");//console.h
+	DrawCenteredText("15 November 2021");//console.h
 	printf("\n");
-	DrawCenteredText("DEVELOPERS");
-	DrawCenteredText("Adal Catano, Andrew Knight");
-	DrawCenteredText("Karl Mariger, Alex Woodley");
+	DrawCenteredText("DEVELOPERS");//console.h
+	DrawCenteredText("Adal Catano, Andrew Knight");//console.h
+	DrawCenteredText("Karl Mariger, Alex Woodley");//console.h
 	printf("\n");
-	DrawCenteredText("\"A Sandwich with a Pretty Big Pickle In It\"");
-	DrawCenteredText("Ryan George");
+	DrawCenteredText("\"A Sandwich with a Pretty Big Pickle In It\"");//console.h
+	DrawCenteredText("Ryan George");//console.h
 }
