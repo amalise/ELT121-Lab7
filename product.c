@@ -39,51 +39,82 @@ void LoadProducts(ProductList *pProductList, char *sFileName)
 		// XXXX
 	}
 	else
-*/	{
+*/
+
+/* add product of type SANDWICH named "Hamburger"
+    and adds subproduct(size) to type SANDWICH */
+{
 		pTmp = AddProduct(pProductList, "Hamburger", SANDWICH);
 		AddSubProduct(pTmp, "Single", 2.29);
 		AddSubProduct(pTmp, "Double", 2.89);
 		AddSubProduct(pTmp, "Triple", 3.49);
+
+/* add product of type SANDWICH named "Cheeseburger"
+    and adds subproduct(size) to type SANDWICH */
 
 		pTmp = AddProduct(pProductList, "Cheeseburger", SANDWICH);
 		AddSubProduct(pTmp, "Single", 2.69);
 		AddSubProduct(pTmp, "Double", 3.09);
 		AddSubProduct(pTmp, "Triple", 3.79);
 
+/* adds product of type SANDWICH named "Bacon Cheeseburger"
+    and subproduct(size) to type SANDWICH */
+
 		pTmp = AddProduct(pProductList, "Bacon Cheeseburger", SANDWICH);
 		AddSubProduct(pTmp, "Single", 3.19);
 		AddSubProduct(pTmp, "Double", 3.59);
 		AddSubProduct(pTmp, "Triple", 4.29);
+
+/* adds product of type SANDWICH named "Gardenburger"
+    and subproduct(size) to type SANDWICH */
 
 		pTmp = AddProduct(pProductList, "Gardenburger", SANDWICH);
 		AddSubProduct(pTmp, "Single", 2.89);
 		AddSubProduct(pTmp, "Double", 3.49);
 		AddSubProduct(pTmp, "Triple", 4.09);
 
+/* adds product of type SIDE named "French Fries"
+    and subproduct(size) to type SIDE */
+
 		pTmp = AddProduct(pProductList, "French Fries", SIDE);
 		AddSubProduct(pTmp, "Small",  1.19);
 		AddSubProduct(pTmp, "Medium", 1.49);
 		AddSubProduct(pTmp, "Large",  1.79);
+
+/* adds product of type SIDE named "Sweet Potato Fries"
+    and subproduct(size) to type SIDE */
 
 		pTmp = AddProduct(pProductList, "Sweet Potato Fries", SIDE);
 		AddSubProduct(pTmp, "Small",  1.29);
 		AddSubProduct(pTmp, "Medium", 1.59);
 		AddSubProduct(pTmp, "Large",  1.89);
 
+/* adds product of type SIDE named "Onion Rings"
+    and subproduct(size) to type SIDE */
+
 		pTmp = AddProduct(pProductList, "Onion Rings", SIDE);
 		AddSubProduct(pTmp, "Small",  1.39);
 		AddSubProduct(pTmp, "Medium", 1.79);
 		AddSubProduct(pTmp, "Large",  2.19);
+
+/* adds product of type SIDE named "Tater Tots"
+    and subproduct(size) to type SIDE */
 
 		pTmp = AddProduct(pProductList, "Tater Tots", SIDE);
 		AddSubProduct(pTmp, "Small",  1.29);
 		AddSubProduct(pTmp, "Medium", 1.59);
 		AddSubProduct(pTmp, "Large",  1.89);
 
+/* adds product of type BEVERAGE named "Soda"
+    and subproduct(size) to type SIDE */
+
 		pTmp = AddProduct(pProductList, "Soda", BEVERAGE);
 		AddSubProduct(pTmp, "Small",  2.09);
 		AddSubProduct(pTmp, "Medium", 2.49);
 		AddSubProduct(pTmp, "Large",  2.89);
+
+/* adds product of type SIDE named "Sweet Potato Fries"
+    and subproduct(size) to type SIDE */
 
 		pTmp = AddProduct(pProductList, "Vanilla Milkshake", BEVERAGE);
 		AddSubProduct(pTmp, "Small",  3.19);
