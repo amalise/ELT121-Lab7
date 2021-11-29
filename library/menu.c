@@ -7,6 +7,7 @@
 
 #include "menu.h"
 
+/*Linked list for the menu system*/
 void InitializeMenu(Menu *pMenu,
                     const char *sHeader,
                     const char *sPrompt,
