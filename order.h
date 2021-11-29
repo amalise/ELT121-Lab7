@@ -3,37 +3,37 @@
 
 #include "product.h"
 
-typedef struct s_OrderItem OrderItem;
-typedef struct s_Order Order;
+typedef struct s_OrderItem OrderItem; // contains item with quantity
+typedef struct s_Order Order; // scope of order
 
-struct s_OrderItem
+struct s_OrderItem // structure for OrderItem
 {
-    SubProduct *pItem;
+    SubProduct *pItem; // Specific item ordered "here"
     int         iQty;
-    OrderItem  *pNext;
+    OrderItem  *pNext; // linked list pointer to next row in invoice
 };
 
-struct s_Order
+struct s_Order//Invoice sheet
 {
     OrderItem *pItems;
-    char      *sAdjustmentLabel;
-    char      *sOverrideLabel;
+    char      *sAdjustmentLabel; // percentage based
+    char      *sOverrideLabel; // fixed
     float      fAdjustment;
     float      fOverride;
 };
 
-void  InitializeOrder    (Order *pOrder);
-void  DestroyOrder       (Order *pOrder);
+void  InitializeOrder    (Order *pOrder); // makes all pointers null if needed
+void  DestroyOrder       (Order *pOrder); // any pointers that aren't null are free'd for memory conservation (MemoryGuard Certified)
 
-void  DrawOrder          (Order *pOrder);
-void  DrawTotals         (Order *pOrder);
+void  DrawOrder          (Order *pOrder); // live receipt
+void  DrawTotals         (Order *pOrder); // displaying total under order, separation of totals and subtotals
 
-void  AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty);
-void  RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty);
-void  ModifyItemQty      (Order *pOrder, SubProduct *pItem, int iQty);
-void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);
+void  AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty); // linked list management
+void  RemoveItemFromOrder(Order *pOrder, SubProduct *pItem, int iQty); // linked list management
+void  ModifyItemQty      (Order *pOrder, SubProduct *pItem, int iQty); // linked list management
+void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);           // linked list management
 
-SubProduct *QueryItemFromOrder(Order *pOrder);
+SubProduct *QueryItemFromOrder(Order *pOrder); // linked list management
 
 float CalculateSubTotal(Order *pOrder);
 float CalculateAdjustedSubTotal(Order *pOrder);

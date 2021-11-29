@@ -8,7 +8,7 @@
 #include "order.h"
 
 /*
- * Private utility functions
+ * Private utility functions, linked lists for
  */
 OrderItem *FindOrderItem(Order *pOrder, SubProduct *pItem)
 {
@@ -209,6 +209,8 @@ int   CountItemsInOrder   (Order *pOrder)
     return iCount;
 }
 
+/* Total cost of everything in order list w/out adjustments (subtotal) */
+
 float CalculateSubTotal   (Order *pOrder)
 {
     float      fTotal = 0.0;
@@ -223,6 +225,9 @@ float CalculateSubTotal   (Order *pOrder)
 
     return fTotal;
 }
+
+/* Price adjustments */
+
 
 float CalculateAdjustedSubTotal(Order *pOrder)
 {
@@ -239,6 +244,9 @@ float CalculateAdjustedSubTotal(Order *pOrder)
     return fSubTotal;
 }
 
+/* Tax calculation */
+
+
 float CalculateTax(Order *pOrder)
 {
     if(!pOrder) return 0.0;
@@ -246,12 +254,17 @@ float CalculateTax(Order *pOrder)
     return CalculateAdjustedSubTotal(pOrder) * GetSettingFloat("Restaurant Tax Rate");
 }
 
+/* Total cost of everything in order list w/adjustments (subtotal) */
+
+
 float CalculateTotal(Order *pOrder)
 {
     if(!pOrder) return 0.0;
 
     return CalculateAdjustedSubTotal(pOrder) + CalculateTax(pOrder);
 }
+
+/* adds adjustment to order */
 
 void AddAdjustmentToOrder(Order *pOrder, char *sLabel, float fAdjustment)
 {
@@ -263,6 +276,8 @@ void AddAdjustmentToOrder(Order *pOrder, char *sLabel, float fAdjustment)
     pOrder->fAdjustment = fAdjustment;
 }
 
+/* adds manual override to order */
+
 void AddOverrideToOrder(Order *pOrder, char *sLabel, float fOverride)
 {
     if(!pOrder) return;
@@ -273,14 +288,18 @@ void AddOverrideToOrder(Order *pOrder, char *sLabel, float fOverride)
     pOrder->fOverride = fOverride;
 }
 
+/* Outputs to log file */
+
 void RecordOrder(Order *pOrder)
 {
-    static int   iSaleCount     = 1;
-    static char *ReceiptLogFile = NULL;
-    static char *SummaryLogFile = NULL;
+    static int   iSaleCount     = 1; // sets static value for each time it's called and records the next order
+    static char *ReceiptLogFile = NULL; // line by line adds new order to list w/out reprinting the header
+    static char *SummaryLogFile = NULL; // saves order total and adds new order to list w/out reprinting the header
 
     char  buffer[20];
-    char  cCurrency = GetSettingChar("Currency");
+    char  cCurrency = GetSettingChar("Currency"); // settings.txt
+
+/* Asks local machine for time */
 
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
@@ -290,7 +309,7 @@ void RecordOrder(Order *pOrder)
 
     OrderItem *pCur;
 
-    if(!ReceiptLogFile)
+    if(!ReceiptLogFile) // logs time as file name
     {
         sprintf(buffer, "register-%d-%02d-%02d.log", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
         ReceiptLogFile = malloc(strlen(buffer) + 1);
@@ -302,6 +321,8 @@ void RecordOrder(Order *pOrder)
                 "-----", "-----------------------------------", "-----------------------------------",
                 "-------", "---", "-------");
         fclose(fTape);
+
+/* linked list interactions for printing items */
     }
     fTape = fopen(ReceiptLogFile, "a");
     for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
