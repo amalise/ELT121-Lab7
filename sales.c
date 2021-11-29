@@ -11,6 +11,8 @@
 
 #define MENU_MARGIN 50
 
+/* User input to obtain quantity of subproduct */
+
 int GetQuantity(SubProduct *pItem)
 {
     int qty = 0;
@@ -48,8 +50,8 @@ void SalesMenu(void)
 
     Menu         mySalesMenu, myAdjustmentMenu;
 
-    // Create blank order
-    InitializeOrder(&myOrder);
+
+    InitializeOrder(&myOrder); // Create blank order
 
     // Initialize Product Database
     InitializeProductList(&myProductList);
@@ -88,7 +90,7 @@ void SalesMenu(void)
 
         switch(QueryMenu(&mySalesMenu))
         {
-        case 1:
+        case 1: // add item to order
             DrawFullMenu(&myProductList);
             eProductType = QueryProductType();
             pProduct     = QueryProductByType(&myProductList, eProductType);
@@ -96,14 +98,14 @@ void SalesMenu(void)
             iQty         = GetQuantity(pItem);
             AddItemToOrder(&myOrder, pItem, iQty);
             break;
-        case 2:
+        case 2: // remove item from order
             DeleteItemFromOrder(&myOrder, QueryItemFromOrder(&myOrder));
             break;
-        case 3:
+        case 3: // cancel crder
             DestroyOrder(&myOrder);
             InitializeOrder(&myOrder);
             break;
-        case 4:
+        case 4: // finish and pay
             printf("\n");
             if(GetCouponCount(&myProductList))
             {
@@ -126,24 +128,24 @@ void SalesMenu(void)
                 iDiscountType = QueryMenu(&myAdjustmentMenu);
                 switch(iDiscountType)
                 {
-                case 1:
+                case 1: // employee discount
                     AddAdjustmentToOrder(&myOrder, "Employee Discount", GetSettingFloat("Employee Discount"));
                     break;
-                case 2:
+                case 2: // military discount
                     AddAdjustmentToOrder(&myOrder, "Military Discount", GetSettingFloat("Military Discount"));
                     break;
-                case 3:
+                case 3: // Favorite Customer
                     AddAdjustmentToOrder(&myOrder, "Loyalty Discount", GetSettingFloat("Loyalty Discount"));
                     break;
-                case 4:
+                case 4: // Karen Tax
                     AddAdjustmentToOrder(&myOrder, "Extra Handling Fee", GetSettingFloat("Extra Handling"));
                     break;
-                case 5:
+                case 8: // manager override
                     // XXXX Manager login
                     fManagerAdjust = QueryFloat("How much should the total be reduced?");
                     AddOverrideToOrder(&myOrder, "Manager Override", fManagerAdjust);
                     break;
-                case 6:
+                case 9: // manager discount
                     // XXXX Manager login
                     fManagerAdjust = QueryFloat("What discount rate should be applied?");
                     AddAdjustmentToOrder(&myOrder, "Manager Discount", fManagerAdjust);
