@@ -9,8 +9,8 @@
 #include "branding.h"
 #include "product.h"
 
-void ValidateSettings(void);
-void MainMenu(void);
+void ValidateSettings(void);//declaration of the validate settings function
+void MainMenu(void);//
 
 /*
  * Program Name:   Lab 8
@@ -99,6 +99,6 @@ void ValidateSettings(void)//Checks to see if setting exists and adds setting if
 
     if(iChanges)//Checks to see if changes were made
     {
-        SaveSettings();//Saves all the changes
+        SaveSettings();//Saves all the changes if any were made
     }
 }
