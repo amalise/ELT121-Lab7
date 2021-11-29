@@ -4,6 +4,8 @@
 
 #include "libstr.h"
 
+//String modification function library
+
 char *StringTrim(char *sString)
 {
     int iLen = 0;

@@ -33,7 +33,7 @@ void InitConsole(char *sWindowTitle)
 	CONSOLE_HEIGHT = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 }
 
-void ClearConsole(void)
+void ClearConsole(void)//Used for refreshing display
 {
     system("cls");
 }
@@ -43,7 +43,7 @@ void ClearConsole(void)
  *
  * https://superuser.com/questions/413073/windows-console-with-ansi-colors-handling
  */
-void FixWindows(void)
+void FixWindows(void)//Allows for console color customization using the ansi library
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     if(hConsole != INVALID_HANDLE_VALUE)
