@@ -10,7 +10,7 @@
 /*
  * Global list of settings
  */
-typedef struct s_SettingNode SettingNode;
+typedef struct s_SettingNode SettingNode;//defines a new type
 
 struct s_SettingNode
 {
@@ -146,7 +146,7 @@ void PopulateSetting(const Setting *pSetting)
 	sscanf(pSetting->sValue, "%lf", &(pSetting->dValue));
 }
 
-int  IsSetting(const char *sName)//-----------------------Returns pointer called sName
+int  IsSetting(const char *sName)
 {
     if(FindSetting(sName))
         return 1;

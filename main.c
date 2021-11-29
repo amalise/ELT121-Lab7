@@ -23,84 +23,82 @@ void MainMenu(void);
  */
 int main(void)
 {
-    ResetSalesTotals(); //--------------------Declaration->sales.h(6)/Implementation->sales.c(178)
+    ResetSalesTotals();//sales.h
+    LoadSettings();//settings.h
+    ValidateSettings();//main.c
+    InitConsole(GetSetting("Company Name"));//console.h
 
-    LoadSettings();     //--------------------Declaration->library\settings.h(line 25)/Implementation->library\settings.c(49)
-    ValidateSettings(); //--------------------Declaration->main.c(12)/Implementation->main.c(39)
-    InitConsole(GetSetting("Company Name"));//Declaration->library\console.h(51)/Implementation->library\console.c(17)
+    UserMenu();//user.h
 
-    UserMenu();         //--------------------Declaration->user.h(4)/Implementation->user.c(10)
-
-    DrawCopyright();    //--------------------Declaration->branding.h(6)/Implementation->branding.c(54)
+    DrawCopyright();//branding.h
 
     return 0;
 }
 
-void ValidateSettings(void)     //--------------------------Filing system for settings(39-106)
+void ValidateSettings(void)//Checks to see if setting exists and adds setting if not found(38-105)
 {
-    int iChanges = 0;           //--------------------------Sets iChanges to 0
-    if(!IsSetting("Logo File")) //--------------------------Declaration->library\settings.h(28)/Implementation->library\settings.c(149)
+    int iChanges = 0;//Sets iChanges to 0
+    if(!IsSetting("Logo File"))//Checks for Logo File setting(settings.h)
     {
-        AddSetting("Logo File",    "resource/logo.txt");//--Declaration->library\settings.h(38)/Implementation->library\settings.c(199)
-        iChanges++;             //--------------------------Adds setting to logo.txt
+        AddSetting("Logo File",    "resource/logo.txt");//Adds setting if not found(settings.h)
+        iChanges++;//Saves Changes
     }
 
-    if(!IsSetting("Company Name"))//------------------------Checks if company name is setting
+    if(!IsSetting("Company Name"))//Checks for Company name in setting(settings.h)
     {
-        AddSetting("Company Name", "Pretty Big Pickle Company");
-        iChanges++;
+        AddSetting("Company Name", "Pretty Big Pickle Company");//Adds setting if not found
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Product File"))
+    if(!IsSetting("Product File"))//Checks for Product File in setting(settings.h)
     {
-        AddSetting("Product File", "products.txt");
-        iChanges++;
+        AddSetting("Product File", "products.txt");//Adds setting if not found
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Currency"))
+    if(!IsSetting("Currency"))//Checks for Currency in setting(settings.h)
     {
-        AddSettingChar("Currency",'$');
-        iChanges++;
+        AddSettingChar("Currency",'$');//Adds setting if not found
+        iChanges++;//Saves changes
+
+    if(!IsSetting("Restaurant Tax Rate"))//Checks for Restaurant Tax Rate in setting(settings.h)
+    {
+        AddSettingFloat("Restaurant Tax Rate", 0.0509);//sets tax rate in settings(settings.h)
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Restaurant Tax Rate"))
+    if(!IsSetting("Sales Tax Rate"))//Checks for Sales Tax Rate in settings(settings.h)
     {
-        AddSettingFloat("Restaurant Tax Rate", 0.0509);
-        iChanges++;
+        AddSettingFloat("Sales Tax Rate", 0.0635);//sets sales tax rate in settings(settings.h)
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Sales Tax Rate"))
+    if(!IsSetting("Employee Discount"))//Checks for Employee Discount in settings(settings.h)
     {
-        AddSettingFloat("Sales Tax Rate", 0.0635);
-        iChanges++;
+        AddSettingFloat("Employee Discount", 0.05);//Sets employee discount
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Employee Discount"))
+    if(!IsSetting("Military Discount"))//Checks for Military Discount in settings(settings.h)
     {
-        AddSettingFloat("Employee Discount", 0.05);
-        iChanges++;
+        AddSettingFloat("Military Discount", 0.10);//Adds military discount to settings(settings.h)
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Military Discount"))
+    if(!IsSetting("Loyalty Discount"))//Checks for loyalty discount in setting(settings.h)
     {
-        AddSettingFloat("Military Discount", 0.10);
-        iChanges++;
+        AddSettingFloat("Loyalty Discount", 0.10);//Adds and sets default loyalty discount
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Loyalty Discount"))
+    if(!IsSetting("Extra Handling"))//Checks for extra handling in setting(settings.h)
     {
-        AddSettingFloat("Loyalty Discount", 0.10);
-        iChanges++;
+        AddSettingFloat("Extra Handling", -0.20);//Adds and sets the default "Karen" charge
+        iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Extra Handling"))
+    if(iChanges)//Checks to see if changes were made
     {
-        AddSettingFloat("Extra Handling", -0.20);
-        iChanges++;
-    }
-
-    if(iChanges)
-    {
-        SaveSettings();
+        SaveSettings();//Saves all the changes
     }
 }
