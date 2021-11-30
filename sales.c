@@ -91,6 +91,7 @@ void SalesMenu(void)
         switch(QueryMenu(&mySalesMenu))
         {
         case 1: // add item to order
+            ClearConsole();
             DrawFullMenu(&myProductList);
             eProductType = QueryProductType();
             pProduct     = QueryProductByType(&myProductList, eProductType);

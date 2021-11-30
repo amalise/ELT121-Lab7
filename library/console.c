@@ -55,6 +55,8 @@ void FixWindows(void)//Allows for console color customization using the ansi lib
             SetConsoleMode(hConsole, mode);
         }
     }
+    SetConsoleCP(437);
+    SetConsoleOutputCP(437);
 }
 
 /*
@@ -115,7 +117,7 @@ void DrawCenteredTextBuffer(char *sText, int iWidth)
     {
         for(i = 0; i < iWidth; i++)
         {
-            printf("%c", sText[i])
+            printf("%c", sText[i]);
         }
     }
     else
@@ -123,9 +125,18 @@ void DrawCenteredTextBuffer(char *sText, int iWidth)
         iBlank = (iWidth - strlen(sText)) / 2;
         for(i = 0; i< iWidth; i++)
         {
-            if(i < iBlank) printf(" ");
-            else if(i < (iBlank + strlen(sText)) printf("%c", sText[iBlank + i]);
-            else printf(" ");
+            if(i < iBlank)
+            {
+                printf(" ");
+            }
+            else if(i < (iBlank + strlen(sText)))
+            {
+                printf("%c", sText[i - iBlank]);
+            }
+            else
+            {
+                printf(" ");
+            }
         }
     }
 }

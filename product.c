@@ -248,10 +248,12 @@ void DrawFullMenu    (ProductList *pProductList)
 	if(!pProductList) return;
 
     // GetConsoleWidth();
-    Product    *pCurSandwich, *pCurSide, pCurBeverage;
-    SubProduct *pCurSubSand, *pCurSubSide, pCurSubBev;
+    Product    *pCurSandwich, *pCurSide, *pCurBeverage;
+    SubProduct *pCurSubSand, *pCurSubSide, *pCurSubBev;
     int bFlag, bSubFlag;
+    char cCurrency = GetSettingChar("Currency");
 
+/*
 #define BORDER_TL '╔'
 #define BORDER_TR '╗'
 #define BORDER_BL '╚'
@@ -263,16 +265,28 @@ void DrawFullMenu    (ProductList *pProductList)
 #define BORDER_C  '╬'
 #define BORDER_V  '║'
 #define BORDER_H  "════════════════════════════════════════════════════════════════════════"
+*/
+#define BORDER_TL '|'
+#define BORDER_TR '|'
+#define BORDER_BL '|'
+#define BORDER_BR '|'
+#define BORDER_T  '-'
+#define BORDER_B  '-'
+#define BORDER_L  '|'
+#define BORDER_R  '|'
+#define BORDER_C  '|'
+#define BORDER_V  '|'
+#define BORDER_H  "--------------------------------------------------------------------------------"
 
-	printf(" %c%*s%.36s%c%*s%.36s%c%*s%.36s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
-	printf(" %c ", BORDER_V);
-	DrawCenteredTextBuffer("SANDWICHES", 36);
-	printf(" %c ", BORDER_V);
-	DrawCenteredTextBuffer("SIDES", 36);
-	printf(" %c ", BORDER_V);
-	DrawCenteredTextBuffer("BEVERAGES", 36);
-	printf(" %c\n", BORDER_V);
-	printf(" %c%*s%.36s%c%*s%.36s%c%*s%.36s%c\n", BORDER_L, BORDER_H, BORDER_C, BORDER_H, BORDER_C, BORDER_H, BORDER_R);
+	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
+	printf(" %c", BORDER_V);
+	DrawCenteredTextBuffer("SANDWICHES", 38);
+	printf("%c", BORDER_V);
+	DrawCenteredTextBuffer("SIDES", 38);
+	printf("%c", BORDER_V);
+	DrawCenteredTextBuffer("BEVERAGES", 38);
+	printf("%c\n", BORDER_V);
+	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_L, BORDER_H, BORDER_C, BORDER_H, BORDER_C, BORDER_H, BORDER_R);
 
     // Start our pointers at the beginning of each list
     pCurSandwich = pProductList->pSandwiches;
@@ -280,18 +294,18 @@ void DrawFullMenu    (ProductList *pProductList)
     pCurBeverage = pProductList->pBeverages;
 
     // Initialize our loop control flag
-    pFlag = 0;
+    bFlag = 0;
     if(pCurSandwich) bFlag = 1;
     if(pCurSide)     bFlag = 1;
     if(pCurBeverage) bFlag = 1;
 
     while(bFlag)
     {
-
-        printf(" ║ %-35.35s    %-36.36s    %-36.36s\n",
-               pCurSandwich->sName,
-               pCurSide->sName,
-               pCurBeverage->sName);
+        printf(" %c %-36.36s %c %-36.36s %c %-36.36s %c\n",
+               BORDER_L, pCurSandwich->sName,
+               BORDER_L, pCurSide->sName,
+               BORDER_L, pCurBeverage->sName,
+               BORDER_L);
 
         pCurSubSand = pCurSandwich->pSubProducts;
         pCurSubSide = pCurSide->pSubProducts;
@@ -303,59 +317,49 @@ void DrawFullMenu    (ProductList *pProductList)
         if(pCurSubBev)  bSubFlag = 1;
         while(bSubFlag)
         {
-            // "        Hamburger                       Fries
-            // "$ 1.89    Large                 $ 1.89    Large
-            printf("    %cnn.nn%-34.34s      %-34.34s      %-34.34s\n",
-                   pCurSubSand->sName,
-                   pCurSubSide->sName,
-                   pCurSubBev->sName);
+            printf(" %c   %-27.27s%c%6.2f %c   %-27.27s%c%6.2f %c   %-27.27s%c%6.2f %c\n",
+                   BORDER_L, pCurSubSand->sName, cCurrency, pCurSubSand->fPrice,
+                   BORDER_L, pCurSubSide->sName, cCurrency, pCurSubSide->fPrice,
+                   BORDER_L, pCurSubBev->sName,  cCurrency, pCurSubBev->fPrice,
+                   BORDER_L);
 
             bSubFlag = 0;
-            if(pCurSubSand) bSubFlag = 1;
-            if(pCurSubSide) bSubFlag = 1;
-            if(pCurSubBev)  bSubFlag = 1;
+            if(pCurSubSand)
+            {
+                pCurSubSand = pCurSubSand->pNext;
+                if(pCurSubSand) bSubFlag = 1;
+            }
+            if(pCurSubSide)
+            {
+                pCurSubSide = pCurSubSide->pNext;
+                if(pCurSubSide) bSubFlag = 1;
+            }
+            if(pCurSubBev)
+            {
+                pCurSubBev = pCurSubBev->pNext;
+                if(pCurSubBev)  bSubFlag = 1;
+            }
        }
 
         // Set our loop control flag
-        pFlag = 0;
-        if(pCurSandwich) pFlag = 1;
-        if(pCurSide)     pFlag = 1;
-        if(pCurBeverage) pFlag = 1;
+        bFlag = 0;
+        if(pCurSandwich)
+        {
+            pCurSandwich = pCurSandwich->pNext;
+            if(pCurSandwich) bFlag = 1;
+        }
+        if(pCurSide)
+        {
+            pCurSide = pCurSide->pNext;
+            if(pCurSide)     bFlag = 1;
+        }
+        if(pCurBeverage)
+        {
+            pCurBeverage = pCurBeverage->pNext;
+            if(pCurBeverage) bFlag = 1;
+        }
     }
-
-
-    Loop priming
-    Loop conditional
-        Repeated Steps
-        Loop advance
-
-
-    Priming
-    do
-    {
-        Repeats
-        Advancing
-
-    }while(Condition);
-
-
-    priming
-    while(condition)
-    {
-        repeat
-        advance
-    }
-
-    priming
-    for(priming; condition; advance)
-    {
-        repeat
-        advancing
-    }
-
-
-
-	// XXXX
+	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
 }
 
 ProductType     QueryProductType   (void)
