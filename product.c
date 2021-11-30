@@ -252,21 +252,27 @@ void DrawFullMenu    (ProductList *pProductList)
     SubProduct *pCurSubSand, *pCurSubSide, pCurSubBev;
     int bFlag, bSubFlag;
 
-	printf(" %s  %s  %s\n",
-        // "                 xx                 "
-           " ╔════════════════════════════════╗ ",
-           " ╔════════════════════════════════╗ ",
-           " ╔════════════════════════════════╗ ");
-	printf("  %s    %s    %s\n",
-        // "                 xx                 "
-           " ║           SANDWICHES           ║ ",
-           " ║              SIDES             ║ ",
-           " ║            BEVERAGES           ║ ");
-	printf("  %s    %s    %s\n",
-        // "                 xx                 "
-           "  --------------------------------  ||",
-           "  --------------------------------  ||",
-           "  --------------------------------  ");
+#define BORDER_TL '╔'
+#define BORDER_TR '╗'
+#define BORDER_BL '╚'
+#define BORDER_BR '╝'
+#define BORDER_T  '╦'
+#define BORDER_B  '╩'
+#define BORDER_L  '╠'
+#define BORDER_R  '╣'
+#define BORDER_C  '╬'
+#define BORDER_V  '║'
+#define BORDER_H  "════════════════════════════════════════════════════════════════════════"
+
+	printf(" %c%*s%.36s%c%*s%.36s%c%*s%.36s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
+	printf(" %c ", BORDER_V);
+	DrawCenteredTextBuffer("SANDWICHES", 36);
+	printf(" %c ", BORDER_V);
+	DrawCenteredTextBuffer("SIDES", 36);
+	printf(" %c ", BORDER_V);
+	DrawCenteredTextBuffer("BEVERAGES", 36);
+	printf(" %c\n", BORDER_V);
+	printf(" %c%*s%.36s%c%*s%.36s%c%*s%.36s%c\n", BORDER_L, BORDER_H, BORDER_C, BORDER_H, BORDER_C, BORDER_H, BORDER_R);
 
     // Start our pointers at the beginning of each list
     pCurSandwich = pProductList->pSandwiches;
@@ -281,7 +287,8 @@ void DrawFullMenu    (ProductList *pProductList)
 
     while(bFlag)
     {
-        printf("  %-36.36s    %-36.36s    %-36.36s\n",
+
+        printf(" ║ %-35.35s    %-36.36s    %-36.36s\n",
                pCurSandwich->sName,
                pCurSide->sName,
                pCurBeverage->sName);

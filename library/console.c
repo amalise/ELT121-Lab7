@@ -107,6 +107,29 @@ void DrawRightText(char *sText)
         printf("%*s%s\n", (CONSOLE_WIDTH - strlen(sText)), "", sText);
 }
 
+void DrawCenteredTextBuffer(char *sText, int iWidth)
+{
+    int i, iBlank; // iBlank = Number of leading spaces
+
+    if(strlen(sText) >= iWidth)
+    {
+        for(i = 0; i < iWidth; i++)
+        {
+            printf("%c", sText[i])
+        }
+    }
+    else
+    {
+        iBlank = (iWidth - strlen(sText)) / 2;
+        for(i = 0; i< iWidth; i++)
+        {
+            if(i < iBlank) printf(" ");
+            else if(i < (iBlank + strlen(sText)) printf("%c", sText[iBlank + i]);
+            else printf(" ");
+        }
+    }
+}
+
 // User interractions
 int   QueryInt  (char *sPrompt)
 {

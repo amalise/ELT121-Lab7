@@ -70,6 +70,7 @@ void ResetColor(void);
 // Position text horizontally in the window
 void DrawCenteredText(char *sText);
 void DrawRightText(char *sText);
+void DrawCenteredTextBuffer(char *sText, int iWidth);
 
 // User interractions
 int   QueryInt  (char *sPrompt);
