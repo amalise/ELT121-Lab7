@@ -107,6 +107,10 @@ void SalesMenu(void)
             break;
         case 4: // finish and pay
             printf("\n");
+
+/*  Checks for coupon in product list, retrieves coupon from list,
+    adds it to order and registers that quantity ordered   */
+
             if(GetCouponCount(&myProductList))
             {
                 cResponse = QueryYesNo("Does the customer have a coupon?");
@@ -121,6 +125,9 @@ void SalesMenu(void)
                     AddItemToOrder(&myOrder, pItem, 1);
                 }
             }
+
+/* Checks for adjustments and applies setting for discount or fee */
+
             cResponse = QueryYesNo("Are there any total adjustments?");
             printf("%c\n", cResponse);
             if(cResponse == 'y')
@@ -152,6 +159,10 @@ void SalesMenu(void)
                     break;
                 }
             }
+
+/*  Clear the console, redraws order to display updated totals, requests value from user to calculate change,
+    records the order, and then refreshes new order */
+
             ClearConsole();
             DrawOrder(&myOrder);
             DrawTotals(&myOrder);
@@ -174,14 +185,18 @@ void SalesMenu(void)
     DestroyMyMenu     (&mySalesMenu);
 }
 
-float SALES_TOTAL = 0.0;
-float TAX_TOTAL   = 0.0;
+float SALES_TOTAL = 0.0; // sets sales total to 0
+float TAX_TOTAL   = 0.0; // sets tax total to 0
+
+/* function that rests total sales and tax */
 
 void ResetSalesTotals(void)
 {
     SALES_TOTAL = 0.0;
     TAX_TOTAL = 0.0;
 }
+
+/* function that displays total sales on screen */
 
 void DrawSalesTotals(void)
 {
@@ -190,6 +205,8 @@ void DrawSalesTotals(void)
     printf("%*s  Total sales today: %c%8.2f\n", 45, "", cCurrency, SALES_TOTAL);
     printf("%*sTotal tax collected: %c%8.2f\n", 45, "", cCurrency, TAX_TOTAL);
 }
+
+/* adds sales and taxes to totals */
 
 void AddToSalesTotals(float fSale, float fTax)
 {

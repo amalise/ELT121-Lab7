@@ -116,7 +116,7 @@ char  QueryYesNo(char *sPrompt)
 {
     int c;
 
-    printf("%s ", sPrompt);
+    printf("%s y/n: ", sPrompt);
     fflush(stdin);
     do
     {
