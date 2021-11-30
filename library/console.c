@@ -57,6 +57,22 @@ void FixWindows(void)//Allows for console color customization using the ansi lib
     }
 }
 
+/*
+ * Access console parameters
+ */
+int  GetConsoleWidth (void)
+{
+    return CONSOLE_WIDTH;
+}
+
+int  GetConsoleHeight(void)
+{
+    return CONSOLE_HEIGHT;
+}
+
+/*
+ * Text format management
+ */
 void SetColor(char *sFormat)
 {
 	printf("%s", sFormat);

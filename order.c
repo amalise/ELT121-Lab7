@@ -335,7 +335,7 @@ void RecordOrder(Order *pOrder)
     }
     if(pOrder->sOverrideLabel)
     {
-        fprintf(fTape, "%5d  %-35s  %-35s  %7s  %-3s  %c%6.2f\n",
+        fprintf(fTape, "%5d  %-35s  %-35s  %7s  %3s  %c%6.2f\n",
                 iSaleCount, "", pOrder->sOverrideLabel, "", "",
                 cCurrency, pOrder->fOverride);
     }

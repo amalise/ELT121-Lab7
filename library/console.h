@@ -56,6 +56,10 @@ void ClearConsole(void);
 // Set Windows console to be ANSI compliant
 void FixWindows(void);
 
+// Get console dimensions
+int  GetConsoleWidth (void);
+int  GetConsoleHeight(void);
+
 // Set color (FG and BG can be set separately, or together)
 void SetColor(char *sFormat);
 void SetColors(char *sFG, char *sBG);

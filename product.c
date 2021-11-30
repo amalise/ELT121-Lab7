@@ -5,6 +5,7 @@
 #include "flags.h"
 #include "product.h"
 
+#include "library/console.h"
 #include "library/libstr.h"
 #include "library/menu.h"
 
@@ -245,6 +246,107 @@ void DrawCouponMenu  (ProductList *pProductList)
 void DrawFullMenu    (ProductList *pProductList)
 {
 	if(!pProductList) return;
+
+    // GetConsoleWidth();
+    Product    *pCurSandwich, *pCurSide, pCurBeverage;
+    SubProduct *pCurSubSand, *pCurSubSide, pCurSubBev;
+    int bFlag, bSubFlag;
+
+	printf(" %s  %s  %s\n",
+        // "                 xx                 "
+           " ╔════════════════════════════════╗ ",
+           " ╔════════════════════════════════╗ ",
+           " ╔════════════════════════════════╗ ");
+	printf("  %s    %s    %s\n",
+        // "                 xx                 "
+           " ║           SANDWICHES           ║ ",
+           " ║              SIDES             ║ ",
+           " ║            BEVERAGES           ║ ");
+	printf("  %s    %s    %s\n",
+        // "                 xx                 "
+           "  --------------------------------  ||",
+           "  --------------------------------  ||",
+           "  --------------------------------  ");
+
+    // Start our pointers at the beginning of each list
+    pCurSandwich = pProductList->pSandwiches;
+    pCurSide     = pProductList->pSides;
+    pCurBeverage = pProductList->pBeverages;
+
+    // Initialize our loop control flag
+    pFlag = 0;
+    if(pCurSandwich) bFlag = 1;
+    if(pCurSide)     bFlag = 1;
+    if(pCurBeverage) bFlag = 1;
+
+    while(bFlag)
+    {
+        printf("  %-36.36s    %-36.36s    %-36.36s\n",
+               pCurSandwich->sName,
+               pCurSide->sName,
+               pCurBeverage->sName);
+
+        pCurSubSand = pCurSandwich->pSubProducts;
+        pCurSubSide = pCurSide->pSubProducts;
+        pCurSubBev  = pCurBeverage->pSubProducts;
+
+        bSubFlag = 0;
+        if(pCurSubSand) bSubFlag = 1;
+        if(pCurSubSide) bSubFlag = 1;
+        if(pCurSubBev)  bSubFlag = 1;
+        while(bSubFlag)
+        {
+            // "        Hamburger                       Fries
+            // "$ 1.89    Large                 $ 1.89    Large
+            printf("    %cnn.nn%-34.34s      %-34.34s      %-34.34s\n",
+                   pCurSubSand->sName,
+                   pCurSubSide->sName,
+                   pCurSubBev->sName);
+
+            bSubFlag = 0;
+            if(pCurSubSand) bSubFlag = 1;
+            if(pCurSubSide) bSubFlag = 1;
+            if(pCurSubBev)  bSubFlag = 1;
+       }
+
+        // Set our loop control flag
+        pFlag = 0;
+        if(pCurSandwich) pFlag = 1;
+        if(pCurSide)     pFlag = 1;
+        if(pCurBeverage) pFlag = 1;
+    }
+
+
+    Loop priming
+    Loop conditional
+        Repeated Steps
+        Loop advance
+
+
+    Priming
+    do
+    {
+        Repeats
+        Advancing
+
+    }while(Condition);
+
+
+    priming
+    while(condition)
+    {
+        repeat
+        advance
+    }
+
+    priming
+    for(priming; condition; advance)
+    {
+        repeat
+        advancing
+    }
+
+
 
 	// XXXX
 }
