@@ -15,6 +15,7 @@
 - UserLogin()
 -- User Validation in UserMenu()
 -- User Logout Menu Option
+-- WindowScaling()
 
 - product.c
 -- File I/O
