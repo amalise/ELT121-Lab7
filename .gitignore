@@ -1,6 +1,8 @@
 # Code::Blocks Files
 *.cbp
 *.layout
+*.depend
+*.log
 
 # Prerequisites
 *.d
@@ -54,3 +56,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+*.cscope_file_list
