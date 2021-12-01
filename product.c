@@ -24,6 +24,66 @@ void InitializeProductList(ProductList *pProductList)
 	pProductList->pCoupons    = NULL;
 }
 
+void DestroyProductList(ProductList *pProductList)
+{
+    if(!pProductList) return;
+
+    Product    *pCurP;
+    SubProduct *pCurS;
+
+    for(pCurP = pProductList->pSandwiches; pCurP; pCurP = pProductList->pSandwiches)
+    {
+        pProductList->pSandwiches = pProductList->pSandwiches->pNext;
+        for(pCurS = pCurP->pSubProducts; pCurS; pCurS = pCurP->pSubProducts)
+        {
+            pCurP->pSubProducts = pCurP->pSubProducts->pNext;
+            free(pCurS->sName);
+            free(pCurS);
+        }
+        free(pCurP->sName);
+        free(pCurP);
+    }
+
+    for(pCurP = pProductList->pSides; pCurP; pCurP = pProductList->pSides)
+    {
+        pProductList->pSides = pProductList->pSides->pNext;
+        for(pCurS = pCurP->pSubProducts; pCurS; pCurS = pCurP->pSubProducts)
+        {
+            pCurP->pSubProducts = pCurP->pSubProducts->pNext;
+            free(pCurS->sName);
+            free(pCurS);
+        }
+        free(pCurP->sName);
+        free(pCurP);
+    }
+
+    for(pCurP = pProductList->pBeverages; pCurP; pCurP = pProductList->pBeverages)
+    {
+        pProductList->pBeverages = pProductList->pBeverages->pNext;
+        for(pCurS = pCurP->pSubProducts; pCurS; pCurS = pCurP->pSubProducts)
+        {
+            pCurP->pSubProducts = pCurP->pSubProducts->pNext;
+            free(pCurS->sName);
+            free(pCurS);
+        }
+        free(pCurP->sName);
+        free(pCurP);
+    }
+
+    for(pCurP = pProductList->pCoupons; pCurP; pCurP = pProductList->pCoupons)
+    {
+        pProductList->pCoupons = pProductList->pCoupons->pNext;
+        for(pCurS = pCurP->pSubProducts; pCurS; pCurS = pCurP->pSubProducts)
+        {
+            pCurP->pSubProducts = pCurP->pSubProducts->pNext;
+            free(pCurS->sName);
+            free(pCurS);
+        }
+        free(pCurP->sName);
+        free(pCurP);
+    }
+}
+
 /*
  * File I/O
  */
@@ -167,7 +227,7 @@ void SortProducts(ProductList *pProductList)
  */
 void DrawMenu    (ProductList *pProductList, ProductType eType) //Takes values and displays on screen
 {
-	Product        *pCurP;
+	Product    *pCurP;
 	SubProduct *pCurV;
 
 /* Displays menu's and submenu's */
@@ -353,23 +413,28 @@ void DrawFullMenu    (ProductList *pProductList)
 ProductType     QueryProductType   (void)
 {
 	Menu myMenu;
+	int iSelection;
 
 	InitializeMenu(&myMenu, "", "Choose a product category:", 50, 4, MENU_STYLE_NUMERIC);
 	AddMenuItem(&myMenu, "Sandwich", SANDWICH);
 	AddMenuItem(&myMenu, "Side",     SIDE);
 	AddMenuItem(&myMenu, "Beverage", BEVERAGE);
 
-	return QueryMenu(&myMenu);
+	iSelection = QueryMenuWithCancel(&myMenu);
+
+	DestroyMyMenu(&myMenu);
+
+	return iSelection;
 }
 
 /* streamline product searches by type */
 
 Product        *QueryProductByType (ProductList *pProductList, ProductType eType)
 {
-    int iSelection, i;
+    int      iSelection, i;
     Product *pRoot, *pCur;
-    Menu myMenu;
-    char *sTitle;
+    Menu     myMenu;
+    char    *sTitle;
 
 	if(!pProductList) return;
 
@@ -397,10 +462,13 @@ Product        *QueryProductByType (ProductList *pProductList, ProductType eType
     for(i = 0, pCur = pRoot; pCur; i++, pCur = pCur->pNext)
         AddMenuItem(&myMenu, pCur->sName, i);
 
-    iSelection = QueryMenu(&myMenu);
+    iSelection = QueryMenuWithCancel(&myMenu);
     for(i = 0, pCur = pRoot; i < iSelection; i++, pCur = pCur->pNext)
         ;
 
+    DestroyMyMenu(&myMenu);
+
+    if(iSelection == -1) return NULL;
     return pCur;//MemoryGuard Certified
 }
 
@@ -408,9 +476,9 @@ Product        *QueryProductByType (ProductList *pProductList, ProductType eType
 
 SubProduct *QuerySubProduct(Product *pProduct)
 {
-    int i;
+    int         i, iSelection;
     SubProduct *pCur;
-    Menu myMenu;
+    Menu        myMenu;
 
 	if(!pProduct) return NULL;
 
@@ -418,10 +486,13 @@ SubProduct *QuerySubProduct(Product *pProduct)
 	for(i = 0, pCur = pProduct->pSubProducts; pCur; i++, pCur = pCur->pNext)
         AddMenuItem(&myMenu, pCur->sName, i);
 
-    i = QueryMenu(&myMenu);
-    for(pCur = pProduct->pSubProducts; i > 0; i--, pCur = pCur->pNext)
+    iSelection = QueryMenuWithCancel(&myMenu);
+    for(i = 0, pCur = pProduct->pSubProducts; i < iSelection; i++, pCur = pCur->pNext)
         ;
 
+    DestroyMyMenu(&myMenu);
+
+    if(iSelection == -1) return NULL;
     return pCur;
 }
 

@@ -13,23 +13,23 @@
 
 /* User input to obtain quantity of subproduct */
 
-int GetQuantity(SubProduct *pItem)
+int QueryQuantity(SubProduct *pItem)
 {
-    int qty = 0;
+    int qty = -1;
 
     char buffer[100];
-    sprintf(buffer, "%.45s (%.45s)", pItem->pParent->sName, pItem->sName);
+    sprintf(buffer, "%.35s (%.35s)", pItem->pParent->sName, pItem->sName);
 
-    printf("\n%*sHow many %s do you want? ", MENU_MARGIN, "", buffer);
-    while(qty < 1)
+    printf("\n%*sHow many %s would you like? ", MENU_MARGIN - 15, "", buffer);
+    while(qty < 0)
     {
         fflush(stdin);
         scanf("%i", &qty);
-        if(qty < 1)
+        if(qty < 0)
         {
-            printf("\n%*s%sYou need to order non-imaginary food.%s\n%*sPlease enter a positive quantity: ",
-                   MENU_MARGIN, "", FG_B_RED, COLOR_RESET,
-                   MENU_MARGIN, "");
+            printf("\n%*s%sYou need to order non-imaginary food.%s\n%*sPlease enter a positive quantity (0 to cancel): ",
+                   MENU_MARGIN - 15, "", FG_B_RED, COLOR_RESET,
+                   MENU_MARGIN - 15, "");
         }
     }
 
@@ -38,35 +38,26 @@ int GetQuantity(SubProduct *pItem)
 
 void SalesMenu(void)
 {
-    Order        myOrder;
     ProductList  myProductList;
+    Order        myOrder;
+    Menu         mySalesMenu;
+    Menu         myAdjustmentMenu;
+    int          iSelection;
+    char         cResponse;
+    char         cCurrency = GetSettingChar("Currency");
 
     ProductType  eProductType;
     Product     *pProduct;
     SubProduct  *pItem;
-    int          iQty, iDiscountType;
-    char         cResponse;
-    float        fManagerAdjust, fTenderedCash;
-
-    Menu         mySalesMenu, myAdjustmentMenu;
-
-
-    InitializeOrder(&myOrder); // Create blank order
+    int          iQty;
+    float        fManagerAdjust;
+    float        fTotalBalance, fRemainingBalance, fTenderedCash;
 
     // Initialize Product Database
     InitializeProductList(&myProductList);
     LoadProducts(&myProductList, GetSetting("Product File"));
 
-    // Draw sales menu
-    InitializeMenu(&mySalesMenu,
-                   "SALES MENU",
-                   "Selection:",
-                   50, 4, MENU_STYLE_NUMERIC);
-    AddMenuItem(&mySalesMenu, "Add item to order",      1);
-    AddMenuItem(&mySalesMenu, "Remove item from order", 2);
-    AddMenuItem(&mySalesMenu, "Cancel order",           3);
-    AddMenuItem(&mySalesMenu, "Finish and Pay",         4);
-    AddMenuItem(&mySalesMenu, "Exit",                   9);
+    InitializeOrder(&myOrder); // Create blank order
 
     InitializeMenu(&myAdjustmentMenu,
                    "Price Adjustments",
@@ -75,9 +66,9 @@ void SalesMenu(void)
     AddMenuItem(&myAdjustmentMenu, "Employee Discount", 1);
     AddMenuItem(&myAdjustmentMenu, "Military Discount", 2);
     AddMenuItem(&myAdjustmentMenu, "Favorite Customer", 3);
-    AddMenuItem(&myAdjustmentMenu, "Extra Handling",    4);
-    AddMenuItem(&myAdjustmentMenu, "Manager Override",  8);
-    AddMenuItem(&myAdjustmentMenu, "Manager Discount",  9);
+    AddMenuItem(&myAdjustmentMenu, "Karen Surcharge",   4);
+//    AddMenuItem(&myAdjustmentMenu, "Manager Override",  5);
+//    AddMenuItem(&myAdjustmentMenu, "Manager Discount",  6);
 
     // Take menu action
     do
@@ -88,34 +79,55 @@ void SalesMenu(void)
         DrawOrder(&myOrder);
         DrawTotals(&myOrder);
 
-        switch(QueryMenu(&mySalesMenu))
+     // Draw sales menu
+        InitializeMenu(&mySalesMenu,
+                       "SALES MENU",
+                       "Selection:",
+                       50, 4, MENU_STYLE_NUMERIC);
+        AddMenuItem(&mySalesMenu, "Add item to order",      1);
+        if(CountItemsInOrder(&myOrder) > 0)
+        {
+            AddMenuItem(&mySalesMenu, "Remove item from order", 2);
+            AddMenuItem(&mySalesMenu, "Cancel order",           3);
+            AddMenuItem(&mySalesMenu, "Finish and pay",         4);
+        }
+        AddMenuItem(&mySalesMenu, "Exit", 9);
+
+        iSelection = QueryMenu(&mySalesMenu);
+        DestroyMyMenu(&mySalesMenu);
+
+        switch(iSelection)
         {
         case 1: // add item to order
-            ClearConsole();
-            DrawFullMenu(&myProductList);
-            eProductType = QueryProductType();
-            pProduct     = QueryProductByType(&myProductList, eProductType);
-            pItem        = QuerySubProduct(pProduct);
-            iQty         = GetQuantity(pItem);
+            ClearConsole(); DrawFullMenu(&myProductList);
+            if((eProductType = QueryProductType())                               == -1)   continue;
+            ClearConsole(); DrawFullMenu(&myProductList);
+            if((pProduct     = QueryProductByType(&myProductList, eProductType)) == NULL) continue;
+            ClearConsole(); DrawFullMenu(&myProductList);
+            if((pItem        = QuerySubProduct(pProduct))                        == NULL) continue;
+            ClearConsole(); DrawFullMenu(&myProductList);
+            if((iQty         = QueryQuantity(pItem))                             < 1)     continue;
             AddItemToOrder(&myOrder, pItem, iQty);
             break;
         case 2: // remove item from order
-            DeleteItemFromOrder(&myOrder, QueryItemFromOrder(&myOrder));
+            ClearConsole();
+            if((pItem        = QueryItemFromOrder(&myOrder))                     == NULL) continue;
+            DeleteItemFromOrder(&myOrder, pItem);
             break;
-        case 3: // cancel crder
+        case 3: // cancel order
             DestroyOrder(&myOrder);
             InitializeOrder(&myOrder);
             break;
         case 4: // finish and pay
-            printf("\n");
 
 /*  Checks for coupon in product list, retrieves coupon from list,
     adds it to order and registers that quantity ordered   */
 
             if(GetCouponCount(&myProductList))
             {
+                ClearConsole(); DrawOrder(&myOrder); DrawTotals(&myOrder);
+                printf("\n\n");
                 cResponse = QueryYesNo("Does the customer have a coupon?");
-                printf("%c\n", cResponse);
                 if(cResponse == 'y')
                 {
                     pProduct  = QueryProductByType(&myProductList, COUPON);
@@ -129,13 +141,17 @@ void SalesMenu(void)
 
 /* Checks for adjustments and applies setting for discount or fee */
 
-            cResponse = QueryYesNo("Are there any total adjustments?");
-            printf("%c\n", cResponse);
+            ClearConsole(); DrawOrder(&myOrder); DrawTotals(&myOrder);
+            printf("\n\n");
+            cResponse = QueryYesNo("Are there any discounts to add?");
             if(cResponse == 'y')
             {
-                iDiscountType = QueryMenu(&myAdjustmentMenu);
-                switch(iDiscountType)
+                iSelection = QueryMenuWithCancel(&myAdjustmentMenu);
+                switch(iSelection)
                 {
+                case -1:
+                    RemoveCouponsFromOrder(&myOrder);
+                    continue;
                 case 1: // employee discount
                     AddAdjustmentToOrder(&myOrder, "Employee Discount", GetSettingFloat("Employee Discount"));
                     break;
@@ -146,14 +162,14 @@ void SalesMenu(void)
                     AddAdjustmentToOrder(&myOrder, "Loyalty Discount", GetSettingFloat("Loyalty Discount"));
                     break;
                 case 4: // Karen Tax
-                    AddAdjustmentToOrder(&myOrder, "Extra Handling Fee", GetSettingFloat("Extra Handling"));
+                    AddAdjustmentToOrder(&myOrder, "Karen Surcharge", GetSettingFloat("Karen Surcharge"));
                     break;
-                case 8: // manager override
+                case 5: // manager override
                     // XXXX Manager login
                     fManagerAdjust = QueryFloat("How much should the total be reduced?");
                     AddOverrideToOrder(&myOrder, "Manager Override", fManagerAdjust);
                     break;
-                case 9: // manager discount
+                case 6: // manager discount
                     // XXXX Manager login
                     fManagerAdjust = QueryFloat("What discount rate should be applied?");
                     AddAdjustmentToOrder(&myOrder, "Manager Discount", fManagerAdjust);
@@ -164,11 +180,31 @@ void SalesMenu(void)
 /*  Clear the console, redraws order to display updated totals, requests value from user to calculate change,
     records the order, and then refreshes new order */
 
-            ClearConsole();
-            DrawOrder(&myOrder);
-            DrawTotals(&myOrder);
-            fTenderedCash = QueryFloat("How much currency did the customer give you?");
-            printf("Customer's change: %c %6.2f", GetSetting("Currency"), fTenderedCash - CalculateTotal(&myOrder));
+            fRemainingBalance = fTotalBalance = CalculateTotal(&myOrder);
+            while(fRemainingBalance > 0)
+            {
+                ClearConsole(); DrawOrder(&myOrder); DrawTotals(&myOrder);
+                printf("\n\n");
+                if(fRemainingBalance < fTotalBalance)
+                {
+                    printf("%*s%35s  %35s  %-7s  %3s  %c%6.2f\n",
+                           10, "", "", "TENDERED PAYMENT", "", "-", cCurrency, fTotalBalance - fRemainingBalance);
+                    printf("%*s%35s  %35s  %-7s  %3s  %c%6.2f\n",
+                           10, "", "", "REMAINING BALANCE", "", "", cCurrency, fRemainingBalance);
+                }
+                printf("\n");
+                fTenderedCash = QueryFloat("How much currency did the customer give you (-1 to go back)?");
+                if(fTenderedCash < 0) break;
+                fRemainingBalance -= fTenderedCash;
+            }
+            if(fTenderedCash < 0)
+            {
+                RemoveCouponsFromOrder(&myOrder);
+                RemoveAdjustmentsFromOrder(&myOrder);
+                continue;
+            }
+            printf("\n\n%*sCustomer's change: %c %6.2f\n\n", MENU_MARGIN, "", cCurrency, 0 - fRemainingBalance);
+            DrawCenteredText("Press any key to continue.");
             getch();
             AddToSalesTotals(CalculateTotal(&myOrder), CalculateTax(&myOrder));
             RecordOrder(&myOrder);
@@ -183,7 +219,7 @@ void SalesMenu(void)
 
     DestroyOrder      (&myOrder);
     DestroyProductList(&myProductList);
-    DestroyMyMenu     (&mySalesMenu);
+    DestroyMyMenu     (&myAdjustmentMenu);
 }
 
 float SALES_TOTAL = 0.0; // sets sales total to 0

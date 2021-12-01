@@ -144,7 +144,7 @@ int   QueryInt  (char *sPrompt)
 {
     int i;
 
-    printf("%s ", sPrompt);
+    printf("%*s%s: ", ((CONSOLE_WIDTH - strlen(sPrompt) + 2) / 2), "", sPrompt);
     fflush(stdin);
     scanf("%d", &i);
     return i;
@@ -154,7 +154,7 @@ float QueryFloat(char *sPrompt)
 {
     float f;
 
-    printf("%s ", sPrompt);
+    printf("%*s%s: ", ((CONSOLE_WIDTH - strlen(sPrompt) + 4) / 2), "", sPrompt);
     fflush(stdin);
     scanf("%f", &f);
     return f;
@@ -164,13 +164,14 @@ char  QueryYesNo(char *sPrompt)
 {
     int c;
 
-    printf("%s y/n: ", sPrompt);
+    printf("%*s%s y/n: ", ((CONSOLE_WIDTH - strlen(sPrompt) + 1) / 2), "", sPrompt);
     fflush(stdin);
     do
     {
         c = getch();
         c = tolower(c);
     }while((c != 'y') && (c != 'n'));
+    printf("%c\n", c);
 
     return c;
 }

@@ -16,9 +16,6 @@
 #define FEAT_CUSTOM_BRAND     1
 #define FEAT_CUSTOM_LOGO      1
 
-#define FEAT_CATEGORIES       1
-#define FEAT_MODIFICATIONS    1
-
 #define FEAT_PRODUCT_SAVE     1
 #define FEAT_PRODUCT_SORT     1
 

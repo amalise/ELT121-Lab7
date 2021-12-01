@@ -38,14 +38,14 @@ void InitializeOrder       (Order *pOrder)
 
 void DestroyOrder          (Order *pOrder)
 {
-    OrderItem *pTmp;
+    OrderItem *pCur;
 
     if(!pOrder) return;
 
-    for(pTmp = pOrder->pItems; pTmp; pTmp = pOrder->pItems)
+    for(pCur = pOrder->pItems; pCur; pCur = pOrder->pItems)
     {
-        pOrder->pItems = pTmp->pNext;
-        free(pTmp);
+        pOrder->pItems = pCur->pNext;
+        free(pCur);
     }
 }
 
@@ -63,6 +63,8 @@ void DrawOrder(Order *pOrder)
     printf("%*s%-35s  %-35s  %-7s  %-3s  %-5s%c\n", 10, "", "ITEM", "SIZE", "PRICE", "QTY", "EXT  ", cCurrency);
     printf("%*s%-35s  %-35s  %-7s  %-3s  %-7s\n", 10, "",
            "-----------------------------------", "-----------------------------------", "-------", "---", "-------");
+
+    if(CountItemsInOrder(pOrder) == 0) DrawCenteredText("No items in order");
     for(pCur = pOrder->pItems; pCur; pCur = pCur->pNext)
     {
         printf("%*s%-35s  %-35s  %c%6.2f  %3d  %c%6.2f\n",
@@ -92,19 +94,23 @@ void DrawTotals(Order *pOrder)
            10, "", "", "SUB-TOTAL", "", iItemCount, cCurrency, fSubTotal);
     if(pOrder->sOverrideLabel)
     {
-        printf("%*s%35s  %35s  %-7s  %3d  %c%6.2f\n",
-               10, "", "", pOrder->sOverrideLabel, "", iItemCount, cCurrency, pOrder->fOverride);
+        printf("%*s%35s  %35s  %-7s  %3c  %c%6.2f\n", 10, "", "",
+               pOrder->sOverrideLabel, "",
+               ((pOrder->fOverride < 0) ? '-' : '+'),
+               cCurrency, pOrder->fOverride);
     }
     if(pOrder->sAdjustmentLabel)
     {
-        printf("%*s%35s  %35s  %-7s  %3d  %c%6.2f\n",
-               10, "", "", pOrder->sAdjustmentLabel, "", iItemCount, cCurrency, pOrder->fAdjustment);
+        printf("%*s%35s  %35s  %5.2f %%  %3c  %c%6.2f\n", 10, "", "",
+               pOrder->sAdjustmentLabel,
+               (((pOrder->fAdjustment < 0) ? -100 : 100) * pOrder->fAdjustment),
+               ((pOrder->fAdjustment < 0) ? '+' : '-'),
+               cCurrency, (((pOrder->fAdjustment < 0) ? -1 : 1) * pOrder->fAdjustment * fSubTotal));
     }
-    printf("%*s%35s  %35s  %-7s  %3s  %c%6.2f\n",
-           10, "", "", "TAX", "", "", cCurrency, fTax);
+    printf("%*s%35s  %35s  %5.2f %%  %3s  %c%6.2f\n",
+           10, "", "", "Restaurant Tax", (GetSettingFloat("Restaurant Tax Rate") * 100), "", cCurrency, fTax);
     printf("%*s%35s  %35s  %-7s  %3s  %c%6.2f\n",
            10, "", "", "TOTAL", "", "", cCurrency, fTotal);
-    printf("\n");
 }
 
 void AddItemToOrder     (Order *pOrder, SubProduct *pItem, int iQty)
@@ -184,13 +190,14 @@ SubProduct *QueryItemFromOrder(Order *pOrder)
         AddMenuItem(&myMenu, buffer, c);
     }
 
-    cSelection = QueryMenu(&myMenu);
+    cSelection = QueryMenuWithCancel(&myMenu);
 
     for(c = 'a', pCur = pOrder->pItems; c < cSelection; c++, pCur = pCur->pNext)
         ;
 
-    DestroyMenu(&myMenu);
+    DestroyMyMenu(&myMenu);
 
+    if(c == -1) return NULL;
     return pCur->pItem;
 }
 
@@ -207,6 +214,44 @@ int   CountItemsInOrder   (Order *pOrder)
     }
 
     return iCount;
+}
+
+void  RemoveCouponsFromOrder(Order *pOrder)
+{
+    if(!pOrder) return;
+
+    OrderItem *pCur, *pTmp;
+
+    pCur = pOrder->pItems;
+    while(pCur)
+    {
+        if(pCur->pItem->pParent->eType == COUPON)
+        {
+            pTmp = pCur;
+            pCur = pCur->pNext;
+            DeleteItemFromOrder(pOrder, pTmp->pItem);
+        }
+        else
+        {
+            pCur = pCur->pNext;
+        }
+    }
+}
+
+void  RemoveAdjustmentsFromOrder(Order *pOrder)
+{
+    if(!pOrder) return;
+
+    if(pOrder->sAdjustmentLabel)
+    {
+        free(pOrder->sAdjustmentLabel);
+        pOrder->sAdjustmentLabel = NULL;
+    }
+    if(pOrder->sOverrideLabel)
+    {
+        free(pOrder->sOverrideLabel);
+        pOrder->sOverrideLabel = NULL;
+    }
 }
 
 /* Total cost of everything in order list w/out adjustments (subtotal) */

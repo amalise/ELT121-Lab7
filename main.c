@@ -30,6 +30,7 @@ int main(void)
 
     UserMenu();//user.h
 
+    ClearConsole();
     DrawCopyright();//branding.h
 
     return 0;
@@ -92,9 +93,9 @@ void ValidateSettings(void)//Checks to see if setting exists and adds setting if
         iChanges++;//Saves changes
     }
 
-    if(!IsSetting("Extra Handling"))//Checks for extra handling in setting(settings.h)
+    if(!IsSetting("Karen Surcharge"))//Checks for extra handling in setting(settings.h)
     {
-        AddSettingFloat("Extra Handling", -0.20);//Adds and sets the default "Karen" charge
+        AddSettingFloat("Karen Surcharge", -0.20);//Adds and sets the default "Karen" charge
         iChanges++;//Saves changes
     }
 

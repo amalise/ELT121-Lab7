@@ -35,10 +35,18 @@ void  DeleteItemFromOrder(Order *pOrder, SubProduct *pItem);           // linked
 
 SubProduct *QueryItemFromOrder(Order *pOrder); // linked list management
 
+int   CountItemsInOrder  (Order *pOrder);
+
+void  RemoveCouponsFromOrder(Order *pOrder);
+void  RemoveAdjustmentsFromOrder(Order *pOrder);
+
 float CalculateSubTotal(Order *pOrder);
 float CalculateAdjustedSubTotal(Order *pOrder);
 float CalculateTax(Order *pOrder);
 float CalculateTotal(Order *pOrder);
+
+void AddAdjustmentToOrder(Order *pOrder, char *sLabel, float fAdjustment);
+void AddOverrideToOrder(Order *pOrder, char *sLabel, float fOverride);
 
 void RecordOrder(Order *pOrder);
 

@@ -34,9 +34,9 @@ void DestroyMyMenu (Menu *pMenu)
 
     for(pCur = pMenu->pItems; pCur; pCur = pMenu->pItems)
     {
+        pMenu->pItems = pCur->pNext;
         if(pCur->sItem) free(pCur->sItem);
         if(pCur->sKeys) free(pCur->sKeys);
-        pMenu->pItems = pCur->pNext;
         free(pCur);
     }
 }
@@ -211,11 +211,11 @@ int QueryMenuWithCancel(Menu *pMenu)
     switch(pMenu->iStyle)
     {
     case MENU_STYLE_NUMERIC:
-        printf("0)  Cancel");
+        printf("0)  Cancel\n");
         break;
     case MENU_STYLE_ALPHA:
     default:
-        printf("Z)  Cancel");
+        printf("Z)  Cancel\n");
         break;
     }
 
