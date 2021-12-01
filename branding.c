@@ -57,7 +57,6 @@ void DrawLogo(void)
 void DrawCopyright(void) // Draws the footer
 {
 	printf("\n\n");
-	DrawSalesTotals(); // Displays total sales(sales.h)
 	DrawCenteredText("------------------------------"); // Centers text on display(console.h)
 	printf("\n");
 	DrawCenteredText("COPYRIGHT"); // console.h

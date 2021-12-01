@@ -31,6 +31,8 @@ int main(void)
     UserMenu();//user.h
 
     ClearConsole();
+    printf("\n\n");
+    DrawSalesTotals();//sales.h
     DrawCopyright();//branding.h
 
     return 0;

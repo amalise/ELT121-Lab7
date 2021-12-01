@@ -11,6 +11,9 @@
 
 #define MENU_MARGIN 50
 
+double SALES_TOTAL = 0.0; // sets sales total to 0
+double TAX_TOTAL   = 0.0; // sets tax total to 0
+
 /* User input to obtain quantity of subproduct */
 
 int QueryQuantity(SubProduct *pItem)
@@ -51,7 +54,7 @@ void SalesMenu(void)
     SubProduct  *pItem;
     int          iQty;
     float        fManagerAdjust;
-    float        fTotalBalance, fRemainingBalance, fTenderedCash;
+    float        fTotalBalance, fRemainingBalance, fTenderedCash, fAdjustedSubTotal, fTotalTax;
 
     // Initialize Product Database
     InitializeProductList(&myProductList);
@@ -206,7 +209,9 @@ void SalesMenu(void)
             printf("\n\n%*sCustomer's change: %c %6.2f\n\n", MENU_MARGIN, "", cCurrency, 0 - fRemainingBalance);
             DrawCenteredText("Press any key to continue.");
             getch();
-            AddToSalesTotals(CalculateTotal(&myOrder), CalculateTax(&myOrder));
+            fAdjustedSubTotal = CalculateAdjustedSubTotal(&myOrder);
+            fTotalTax = fAdjustedSubTotal * GetSettingFloat("Restaurant Tax Rate");
+            AddToSalesTotals(fTotalBalance, fTotalTax);
             RecordOrder(&myOrder);
             DestroyOrder(&myOrder);
             InitializeOrder(&myOrder);
@@ -222,15 +227,20 @@ void SalesMenu(void)
     DestroyMyMenu     (&myAdjustmentMenu);
 }
 
-float SALES_TOTAL = 0.0; // sets sales total to 0
-float TAX_TOTAL   = 0.0; // sets tax total to 0
-
 /* function that rests total sales and tax */
 
 void ResetSalesTotals(void)
 {
     SALES_TOTAL = 0.0;
-    TAX_TOTAL = 0.0;
+    TAX_TOTAL   = 0.0;
+}
+
+/* adds sales and taxes to totals */
+
+void AddToSalesTotals(double fSale, double fTax)
+{
+    SALES_TOTAL += fSale;
+    TAX_TOTAL   += fTax;
 }
 
 /* function that displays total sales on screen */
@@ -241,12 +251,4 @@ void DrawSalesTotals(void)
     printf("\n");
     printf("%*s  Total sales today: %c%8.2f\n", 45, "", cCurrency, SALES_TOTAL);
     printf("%*sTotal tax collected: %c%8.2f\n", 45, "", cCurrency, TAX_TOTAL);
-}
-
-/* adds sales and taxes to totals */
-
-void AddToSalesTotals(float fSale, float fTax)
-{
-    SALES_TOTAL += fSale;
-    TAX_TOTAL   += fTax;
 }
