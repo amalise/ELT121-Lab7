@@ -165,7 +165,7 @@ void SortProducts(ProductList *pProductList)
 /*
  * Basic menu printing functions
  */
-void DrawMenu        (ProductList *pProductList, ProductType eType) //Takes values and displays on screen
+void DrawMenu    (ProductList *pProductList, ProductType eType) //Takes values and displays on screen
 {
 	Product        *pCurP;
 	SubProduct *pCurV;
@@ -253,30 +253,18 @@ void DrawFullMenu    (ProductList *pProductList)
     int bFlag, bSubFlag;
     char cCurrency = GetSettingChar("Currency");
 
-/*
-#define BORDER_TL '╔'
-#define BORDER_TR '╗'
-#define BORDER_BL '╚'
-#define BORDER_BR '╝'
-#define BORDER_T  '╦'
-#define BORDER_B  '╩'
-#define BORDER_L  '╠'
-#define BORDER_R  '╣'
-#define BORDER_C  '╬'
-#define BORDER_V  '║'
-#define BORDER_H  "════════════════════════════════════════════════════════════════════════"
-*/
-#define BORDER_TL '|'
-#define BORDER_TR '|'
-#define BORDER_BL '|'
-#define BORDER_BR '|'
-#define BORDER_T  '-'
-#define BORDER_B  '-'
-#define BORDER_L  '|'
-#define BORDER_R  '|'
-#define BORDER_C  '|'
-#define BORDER_V  '|'
-#define BORDER_H  "--------------------------------------------------------------------------------"
+    char BORDER_TL = (char)201; // '╔'
+    char BORDER_TR = (char)187; // '╗'
+    char BORDER_BL = (char)200; // '╚'
+    char BORDER_BR = (char)188; // '╝'
+    char BORDER_T  = (char)203; // '╦'
+    char BORDER_B  = (char)202; // '╩'
+    char BORDER_L  = (char)204; // '╠'
+    char BORDER_R  = (char)185; // '╣'
+    char BORDER_C  = (char)206; // '╬'
+    char BORDER_V  = (char)186; // '║'
+    char BORDER_H[100];      // "════════════════════════════════════════════════════════════════════════"
+    for(int i = 0; i < 100; i++) BORDER_H[i] = (char)205;
 
 	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
 	printf(" %c", BORDER_V);
@@ -302,10 +290,10 @@ void DrawFullMenu    (ProductList *pProductList)
     while(bFlag)
     {
         printf(" %c %-36.36s %c %-36.36s %c %-36.36s %c\n",
-               BORDER_L, pCurSandwich->sName,
-               BORDER_L, pCurSide->sName,
-               BORDER_L, pCurBeverage->sName,
-               BORDER_L);
+               BORDER_V, pCurSandwich->sName,
+               BORDER_V, pCurSide->sName,
+               BORDER_V, pCurBeverage->sName,
+               BORDER_V);
 
         pCurSubSand = pCurSandwich->pSubProducts;
         pCurSubSide = pCurSide->pSubProducts;
@@ -318,10 +306,10 @@ void DrawFullMenu    (ProductList *pProductList)
         while(bSubFlag)
         {
             printf(" %c   %-27.27s%c%6.2f %c   %-27.27s%c%6.2f %c   %-27.27s%c%6.2f %c\n",
-                   BORDER_L, pCurSubSand->sName, cCurrency, pCurSubSand->fPrice,
-                   BORDER_L, pCurSubSide->sName, cCurrency, pCurSubSide->fPrice,
-                   BORDER_L, pCurSubBev->sName,  cCurrency, pCurSubBev->fPrice,
-                   BORDER_L);
+                   BORDER_V, pCurSubSand->sName, cCurrency, pCurSubSand->fPrice,
+                   BORDER_V, pCurSubSide->sName, cCurrency, pCurSubSide->fPrice,
+                   BORDER_V, pCurSubBev->sName,  cCurrency, pCurSubBev->fPrice,
+                   BORDER_V);
 
             bSubFlag = 0;
             if(pCurSubSand)
@@ -359,7 +347,7 @@ void DrawFullMenu    (ProductList *pProductList)
             if(pCurBeverage) bFlag = 1;
         }
     }
-	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
+	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_BL, BORDER_H, BORDER_B, BORDER_H, BORDER_B, BORDER_H, BORDER_BR);
 }
 
 ProductType     QueryProductType   (void)
