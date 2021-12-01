@@ -55,8 +55,6 @@ void FixWindows(void)//Allows for console color customization using the ansi lib
             SetConsoleMode(hConsole, mode);
         }
     }
-    SetConsoleCP(437);
-    SetConsoleOutputCP(437);
 }
 
 /*

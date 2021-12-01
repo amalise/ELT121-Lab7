@@ -26,12 +26,7 @@ struct s_Menu
 	MenuItem *pItems;
 };
 
-void InitializeMenu(Menu *pMenu,
-                    const char *sHeader,
-                    const char *sPrompt,
-                    const int   iMargin,
-                    const int   iIndent,
-                    const int   iStyle);
+void InitializeMenu(Menu *pMenu, char *sHeader, char *sPrompt, int   iMargin, int   iIndent, int   iStyle);
 void DestroyMyMenu (Menu *pMenu);
 
 void SetMenuHeader (Menu *pMenu, const char *sHeader);
@@ -42,6 +37,7 @@ void SetMenuStyle  (Menu *pMenu, const int iStyle);
 void AddMenuItem   (Menu *pMenu, const char *sItem, const int iReturn);
 void AddMenuItemKey(Menu *pMenu, const char *sItem, const char *sKeys, const int iReturn);
 
-int  QueryMenu     (Menu *pMenu);
+int  QueryMenu          (Menu *pMenu);
+int  QueryMenuWithCancel(Menu *pMenu);
 
 # endif // INC_MENU_H
