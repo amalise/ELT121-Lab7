@@ -2,11 +2,10 @@
 
 
 ### General
-- product.c
--- DrawFullMenu()
-
-- Destroy functions!!!
-- Check for unbalanced mallocs()
+- End of Day totals aren't working
+- Add color to displays
+- Make file logs not overwrite for re-runs
+- Add discount rate mgmt to main menu
 
 ### Perpetual
 - Keep **main.c** description up-to-date
@@ -15,14 +14,13 @@
 - UserLogin()
 -- User Validation in UserMenu()
 -- User Logout Menu Option
--- WindowScaling()
+-- Manager Discount/Adjustment
 
 - product.c
 -- File I/O
 -- List Sorting
 
-- Manager Discount
-- Coupons
+- Coupons (??)
 
 ### Style
 -- typdef before struct

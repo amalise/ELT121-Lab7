@@ -245,7 +245,7 @@ void DrawMenu    (ProductList *pProductList, ProductType eType) //Takes values a
 		pCurP = pProductList->pSides;
 		break;
 	case BEVERAGE:
-		printf("%*s%-50s  %-7s\n", SINGLE_MARGIN, "", "BEVERGES", "PRICE");
+		printf("%*s%-50s  %-7s\n", SINGLE_MARGIN, "", "BEVERAGES", "PRICE");
 		pCurP = pProductList->pBeverages;
 		break;
 	case COUPON:
