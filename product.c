@@ -326,16 +326,22 @@ void DrawFullMenu    (ProductList *pProductList)
     char BORDER_H[100];      // "════════════════════════════════════════════════════════════════════════"
     for(int i = 0; i < 100; i++) BORDER_H[i] = (char)205;
 
-	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
+	printf(" %s%c%.38s%c%.38s%c%.38s%c\n",BD_COLOR, BORDER_TL, BORDER_H, BORDER_T, BORDER_H, BORDER_T, BORDER_H, BORDER_TR);
 	printf(" %c", BORDER_V);
+	printf("%s",H_COLOR);
 	DrawCenteredTextBuffer("SANDWICHES", 38);
+	printf("%s",BD_COLOR);
 	printf("%c", BORDER_V);
+	printf("%s",H_COLOR);
 	DrawCenteredTextBuffer("SIDES", 38);
+	printf("%s",BD_COLOR);
 	printf("%c", BORDER_V);
+	printf("%s",H_COLOR);
 	DrawCenteredTextBuffer("BEVERAGES", 38);
+	printf("%s",BD_COLOR);
 	printf("%c\n", BORDER_V);
 	printf(" %c%.38s%c%.38s%c%.38s%c\n", BORDER_L, BORDER_H, BORDER_C, BORDER_H, BORDER_C, BORDER_H, BORDER_R);
-
+    printf("%s",COLOR_RESET);
     // Start our pointers at the beginning of each list
     pCurSandwich = pProductList->pSandwiches;
     pCurSide     = pProductList->pSides;
