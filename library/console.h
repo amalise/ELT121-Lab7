@@ -46,6 +46,9 @@
 #define BG_B_WHITE   "\x1b[107m"
 
 #define COLOR_RESET "\x1b[0m"
+#define BD_COLOR    "\x1b[93m"//Yellow
+#define H_COLOR     "\x1b[36m"//CYAN(NYA)
+
 
 // Determine console size, for text positioning
 void InitConsole(char *sWindowTitle);

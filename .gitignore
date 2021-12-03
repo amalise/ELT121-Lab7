@@ -1,8 +1,10 @@
+# Generated Data Files
+*.log
+
 # Code::Blocks Files
-*.cbp
 *.layout
 *.depend
-*.log
+*.cscope_file_list
 
 # Prerequisites
 *.d
@@ -56,5 +58,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-*.cscope_file_list

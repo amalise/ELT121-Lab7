@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Lab 8" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Lab 8" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Lab 8" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="TODO.md" />
+		<Unit filename="branding.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="branding.h" />
+		<Unit filename="flags.h" />
+		<Unit filename="library/console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="library/console.h" />
+		<Unit filename="library/libstr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="library/libstr.h" />
+		<Unit filename="library/menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="library/menu.h" />
+		<Unit filename="library/settings.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="library/settings.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="order.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="order.h" />
+		<Unit filename="product.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="product.h" />
+		<Unit filename="resource/logo.txt" />
+		<Unit filename="sales.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sales.h" />
+		<Unit filename="settings.txt" />
+		<Unit filename="user.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="user.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
